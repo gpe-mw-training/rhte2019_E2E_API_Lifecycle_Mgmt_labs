@@ -1,0 +1,7 @@
+. Via the oc utility, ensure you are authenticated into a remote OCP environment as a cluster admin
+
+. Execute this ansible:
++
+-----
+$ ansible-playbook -i localhost, -c local e2e_api_mgmt.yml
+-----

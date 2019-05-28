@@ -1,0 +1,23 @@
+---
+
+- name: Check if OCP project exists
+  shell: oc get project {{ ocp_user }}-jenkins
+  register: project_result
+  ignore_errors: true
+  changed_when: false
+
+- name: Create OCP project {{ ocp_user }}-jenkins
+  command: "oc adm new-project {{ ocp_user }}-jenkins --admin={{ ocp_user }} --display-name={{ ocp_user }}-jenkins"
+  when: project_result is failed
+
+- name: Annotate the project with requester
+  shell: "oc annotate namespace {{ ocp_user }}-jenkins openshift.io/requester={{ ocp_user }} --overwrite"
+
+- name: Create Jenkins Master
+  shell: |
+      oc new-app jenkins-persistent \
+        -p ENABLE_OAUTH=true \
+        -p MEMORY_LIMIT=4Gi \
+        -p VOLUME_CAPACITY=8Gi \
+        -p DISABLE_ADMINISTRATIVE_MONITORS=true \
+        -n {{ ocp_user }}-jenkins
