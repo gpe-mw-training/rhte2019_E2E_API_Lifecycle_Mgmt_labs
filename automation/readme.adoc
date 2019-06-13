@@ -5,3 +5,19 @@
 -----
 $ ansible-playbook -i localhost, -c local e2e_api_mgmt.yml
 -----
+
+
+== Jenkins
+
+-----
+$ oc new-project openbanking-cicd 
+
+$ oc new-app jenkins-persistent \
+   -p ENABLE_OAUTH=true \
+   -p MEMORY_LIMIT=4Gi \
+   -p VOLUME_CAPACITY=8Gi \
+   -p DISABLE_ADMINISTRATIVE_MONITORS=true \
+   -n openbanking-cicd
+
+$ oc set resources dc jenkins --limits=cpu=1 --requests=cpu=100m
+-----
