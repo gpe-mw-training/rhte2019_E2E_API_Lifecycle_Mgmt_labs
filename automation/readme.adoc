@@ -21,3 +21,36 @@ $ oc new-app jenkins-persistent \
 
 $ oc set resources dc jenkins --limits=cpu=1 --requests=cpu=100m
 -----
+
+== 3scale API Manager
+
+. Named tenants:
+
+.. dev
++
+----
+orgName=openbanking-dev
+ocpAdminId=user1
+tenantAdminId=api01
+CREATE_GWS_WITH_EACH_TENANT=true
+gw_project_name=$orgName-gw
+----
+
+.. prod
++
+-----
+orgName=openbanking-prod
+ocpAdminId=user1
+tenantAdminId=api01
+CREATE_GWS_WITH_EACH_TENANT=true
+gw_project_name=$orgName-gw
+-----
+
+== 3scale toolbox tests
+
+-----
+
+$ 3scale remote add openbanking-dev https://4507a1aa1a16b5f7544661bbde4aaa9dcf6a08d6ed00b575afc374154cc84d1a@openbanking-dev-admin.apps-0bf1.generic.opentlc.com
+$ 3scale application-plan list -k openbanking-dev api
+
+-----
