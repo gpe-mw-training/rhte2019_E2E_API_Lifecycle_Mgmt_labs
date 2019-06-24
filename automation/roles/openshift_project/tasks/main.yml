@@ -1,0 +1,37 @@
+---
+
+# create project
+- name: "create project {{ ocp_project }}"
+  template:
+    src: "{{ resources_home_dir }}/openshift/project.yml"
+    dest: "{{ work_dir }}/project.yml"
+  changed_when: false
+- k8s:
+    state: present
+    src: "{{ work_dir }}/project.yml"
+
+#- name: assign user "{{ project_admin }}" as project admin in "{{ ocp_project }}"
+#  oc_adm_policy_user:
+#    state: present
+#    oc_binary: "{{ openshift_cli }}"
+#    resource_kind: role
+#    user: "{{ project_admin }}"
+#    namespace: "{{ ocp_project }}"
+#    rolebinding_name: "{{ project_admin }}-admin"
+#    resource_name: admin
+#  when: >
+#    project_admin is defined and
+#    project_admin is not none and
+#    project_admin|trim() != ""
+
+#- name: annotate project "{{ ocp_project }}"
+#  oc_project_annotate:
+#    state: present
+#    oc_binary: "{{ openshift_cli }}"
+#    name: "{{ ocp_project }}"
+#    annotations: "{{ project_annotations }}"
+#    debug: True
+#  when: >
+#    project_annotations is defined and
+#    project_annotations is not none and
+#    project_annotations|trim() != ""

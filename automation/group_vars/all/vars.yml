@@ -1,3 +1,8 @@
 ---
 
+base_name: openbanking
+openshift_cli: oc
+ocp_admin: api0
 ocp_user: user1
+resources_home_dir: "{{ playbook_dir }}/resources"
+use_cluster_quota: true

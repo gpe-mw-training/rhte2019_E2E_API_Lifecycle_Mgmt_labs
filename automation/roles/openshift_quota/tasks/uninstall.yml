@@ -1,0 +1,6 @@
+---
+
+- name: Remove quota - "{{ quota_name }}"
+  k8s:
+    state: absent
+    src: /resources/quota/clusterquota.yml

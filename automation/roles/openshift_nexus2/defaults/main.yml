@@ -1,0 +1,41 @@
+---
+
+is_control_plane: true
+
+app_name: nexus
+ocp_project: "{{ base_name }}-{{ app_name }}"
+ocp_project_desc: "nexus configured with RHT maven repos"
+ocp_project_display_name: "{{ ocp_project }}"
+project_admin: "{{ ocp_admin }}"
+
+work_dir_name: "{{ app_name }}"
+resources_dir: "{{ resources_home_dir }}/{{ app_name }}"
+nexus_template: "{{ resources_dir }}/{{ app_name }}-persistent.yaml"
+
+nexus_pvc_name: "{{ app_name }}-pv"
+
+nexus_version: 2.14.10
+nexus_pv_capacity: 2Gi
+nexus_max_memory: 2Gi
+nexus_max_cpu: 500m
+
+nexus_configuration_script: "nexus2-functions.sh"
+
+nexus_admin_user: admin
+nexus_admin_password: admin123
+
+use_local_proxy: false
+maven_local_proxy_address:
+
+nexus_remote_proxy_repos: 
+  - name: redhat-ga
+    url: https://maven.repository.redhat.com/ga/
+  - name: redhat-ea
+    url: https://maven.repository.redhat.com/earlyaccess/all/
+  - name: redhat-techpreview
+    url: https://maven.repository.redhat.com/techpreview/all/
+  - name: jboss-ce
+    url: https://repository.jboss.org/nexus/content/groups/public/
+
+nexus_proxy_repo_template: "{{ resources_dir }}/nexus2-proxy-repo.json"
+

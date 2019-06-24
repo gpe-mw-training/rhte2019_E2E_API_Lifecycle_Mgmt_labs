@@ -1,0 +1,34 @@
+---
+
+- name: set control_plane facts
+  set_fact:
+    quota_name: "quota-{{ base_name }}-{{ ocp_admin }}"
+    quota_requests_cpu: 4
+    quota_limits_cpu: 9
+    quota_requests_memory: '8Gi'
+    quota_limits_memory: '16Gi'
+    quota_configmaps: 15
+    quota_pods: 20
+    quota_persistentvolumeclaims: 10
+    quota_services: 50
+    quota_secrets: 50
+    quota_requests_storage: 40Gi
+    quota_pv_claims: 10
+  when: is_control_plane|bool
+
+- name: nexus template
+  template:
+    src: "{{ resources_home_dir }}/openshift/clusterquota.yml"
+    dest: "{{ work_dir }}/clusterquota.yml"
+  changed_when: false
+
+- name: "Create user Quota - {{ quota_name }} " 
+  k8s:
+    state: present
+    src: "{{ work_dir }}/clusterquota.yml"
+  when: >
+    use_cluster_quota|bool and 
+    ( ACTION is not defined or
+    ACTION is none or
+    ACTION|trim() == "" or
+    ACTION|trim() == "install" )

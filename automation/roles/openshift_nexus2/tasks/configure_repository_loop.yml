@@ -1,0 +1,8 @@
+---
+
+- name: configure remote repos
+  include_tasks: configure_repository.yml
+  with_items:
+    - "{{ proxy_repos }}"
+  loop_control:
+    loop_var: proxy_repo

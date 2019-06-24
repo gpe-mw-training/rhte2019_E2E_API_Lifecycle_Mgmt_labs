@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: "{{ app_name }}"
+  name: "{{ route_name }}"
+  namespace: "{{ ocp_project }}"
+spec:
+  host: "{{ route_host }}"
+  port:
+    targetPort: gateway
+  tls:
+    insecureEdgeTerminationPolicy: Allow
+    termination: edge
+  to:
+    kind: Service
+    name: "{{ service_name }}"
+    weight: 100
+  wildcardPolicy: None

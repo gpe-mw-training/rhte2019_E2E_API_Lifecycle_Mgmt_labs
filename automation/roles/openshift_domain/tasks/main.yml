@@ -1,0 +1,31 @@
+---
+
+- set_fact:
+    route_name: testroute
+    route_host: ""
+    service_name: testsvc
+
+- name: nexus template
+  template:
+    src: "{{ resources_home_dir }}/openshift/route_edge.yml"
+    dest: "{{ work_dir }}/route_edge.yml"
+  changed_when: false
+
+- name: create test route
+  k8s:
+    state: present
+    src: "{{ work_dir }}/route_edge.yml"
+
+- name: get domain url
+  shell: echo $({{ openshift_cli }} get route {{ route_name }} -o jsonpath='{.spec.host}' -n {{ ocp_project }} | sed "s/testroute-{{ ocp_project }}.//g")
+  register: ocp_domain_host
+
+- name: set ocp_domain fact
+  set_fact: 
+    ocp_domain: "{{ ocp_domain_host.stdout }}"
+
+- name: delete test route
+  k8s:
+    state: absent
+    src: "{{ work_dir }}/route_edge.yml"
+    

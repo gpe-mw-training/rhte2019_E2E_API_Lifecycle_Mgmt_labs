@@ -1,0 +1,21 @@
+---
+
+- name: deploy jenkins
+  template:
+    src: "{{ resources_home_dir }}/jenkins/gpte-jenkins-persistent.yml"
+    dest: "{{ work_dir }}/gpte-jenkins-persistent.yml"
+  changed_when: false
+- k8s:
+    state: present
+    namespace: "{{ ocp_project }}"
+    src: "{{ work_dir }}/gpte-jenkins-persistent.yml"
+
+- name: wait until jenkins is up and running
+  shell: "{{ openshift_cli }} get dc {{ app_name }} -o template --template={{ json_template }} -n {{ ocp_project }}"
+  vars:
+    json_template: '\{\{.status.readyReplicas\}\}'
+  register: result
+  until: result.stdout == "1"
+  retries: 20
+  delay: 30
+  changed_when: false

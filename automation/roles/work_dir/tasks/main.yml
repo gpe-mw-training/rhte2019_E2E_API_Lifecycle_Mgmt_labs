@@ -1,0 +1,12 @@
+---
+
+- name: create base work directory
+  command: mkdir -p /tmp/{{ base_name }}
+
+- name: create work directory
+  command: mktemp -d /tmp/{{ base_name }}/{{ work_dir_name }}-XXXXXX
+  register: mktemp
+  changed_when: False
+
+- set_fact:
+    work_dir: "{{ mktemp.stdout }}"

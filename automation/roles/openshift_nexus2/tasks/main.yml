@@ -1,0 +1,25 @@
+---
+
+- name: deploy nexus
+  template:
+    src: "{{ resources_home_dir }}/nexus/nexus2-persistent.yml"
+    dest: "{{ work_dir }}/nexus2-persistent.yml"
+  changed_when: false
+- k8s:
+    state: present
+    namespace: "{{ ocp_project }}"
+    src: "{{ work_dir }}/nexus2-persistent.yml"
+
+- name: wait until nexus is up and running
+  shell: "{{ openshift_cli }} get deployment {{ app_name }} -o template --template={{ json_template }} -n {{ ocp_project }}"
+  vars:
+    json_template: '\{\{.status.readyReplicas\}\}'
+  register: result
+  until: result.stdout == "1"
+  retries: 20
+  delay: 30
+  changed_when: false
+
+- import_tasks: configure_repository_loop.yml
+  vars:
+    proxy_repos: "{{ nexus_remote_proxy_repos }}"
