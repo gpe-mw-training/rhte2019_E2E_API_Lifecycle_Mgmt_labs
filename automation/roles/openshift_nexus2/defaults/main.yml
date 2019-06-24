@@ -1,14 +1,11 @@
 ---
 
-is_control_plane: true
-
 app_name: nexus
 ocp_project: "{{ base_name }}-{{ app_name }}"
 ocp_project_desc: "nexus configured with RHT maven repos"
 ocp_project_display_name: "{{ ocp_project }}"
 project_admin: "{{ ocp_admin }}"
 
-work_dir_name: "{{ app_name }}"
 resources_dir: "{{ resources_home_dir }}/{{ app_name }}"
 nexus_template: "{{ resources_dir }}/{{ app_name }}-persistent.yaml"
 

@@ -1,10 +1,8 @@
 ---
 
-is_control_plane: true
-
-app_name: "{{ base_name }}-cicd"
-ocp_project: "{{ base_name }}-jenkins"
-ocp_project_desc: "nexus configured with RHT maven repos"
+app_name: "{{ base_name }}-jenkins"
+ocp_project: "{{ base_name }}-cicd"
+ocp_project_desc: "Jenkins"
 ocp_project_display_name: "{{ ocp_project }}"
 project_admin: "{{ ocp_admin }}"
 

@@ -2,6 +2,7 @@ kind: List
 apiVersion: v1
 items:
 
+# https://docs.openshift.com/container-platform/3.11/using_images/other_images/jenkins.html#jenkins-as-s2i-builder
 - apiVersion: v1
   kind: BuildConfig
   metadata:
@@ -21,7 +22,18 @@ items:
     output:                       
       to:
         kind: ImageStreamTag
-        name: gpte-jenkins:1.0
+        name: {{ JENKINS_SERVICE_NAME }}:latest
+        namespace: {{ ocp_project }}
+    triggers:
+      - type: Github
+      - type: ConfigChange
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      application: {{ JENKINS_SERVICE_NAME }}
+    name: {{ JENKINS_SERVICE_NAME }}
+
 
 - apiVersion: v1
   kind: Route
@@ -129,8 +141,8 @@ items:
         from:
           kind: ImageStreamTag
           #name: {{ JENKINS_IMAGE_STREAM_TAG }}
-          name: gpte-jenkins:1.0
-          #namespace: {{ NAMESPACE }}
+          name: {{ JENKINS_SERVICE_NAME }}:latest
+          namespace: {{ ocp_project }}
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange

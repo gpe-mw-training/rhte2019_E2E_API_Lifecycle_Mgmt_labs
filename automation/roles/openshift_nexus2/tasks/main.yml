@@ -25,4 +25,12 @@
     proxy_repos: "{{ nexus_remote_proxy_repos }}"
 
 - name: "provide {{ ocp_user }} with view access to {{ ocp_project }}"
-  shell: "{{ openshift_cli }} oadm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"
+  shell: "{{ openshift_cli }} adm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"
+
+- name: delete project
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Project
+    name: "{{ ocp_project }}"
+  tags: [ never, uninstall ]

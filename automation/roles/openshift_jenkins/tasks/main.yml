@@ -2,13 +2,13 @@
 
 - name: configure jenkins slave with 3scale toolbox utility
   template:
-    src: "{{ resources_home_dir }}/jenkins/3scale_toolbox_slave_pod.yml"
-    dest: "{{ work_dir }}/3scale_toolbox_slave_pod.yml"
+    src: "{{ resources_home_dir }}/jenkins/3scale_toolbox_slave.yml"
+    dest: "{{ work_dir }}/3scale_toolbox_slave.yml"
   changed_when: false
 - k8s:
     state: present
     namespace: "{{ ocp_project }}"
-    src: "{{ work_dir }}/3scale_toolbox_slave_pod.yml"
+    src: "{{ work_dir }}/3scale_toolbox_slave.yml"
 
 - name: build and deploy jenkins
   template:
@@ -31,4 +31,12 @@
   changed_when: false
 
 - name: "provide {{ ocp_user }} with view access to {{ ocp_project }}"
-  shell: "{{ openshift_cli }} oadm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"
+  shell: "{{ openshift_cli }} adm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"
+
+- name: delete project
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Project
+    name: "{{ ocp_project }}"
+  tags: [ never, uninstall ]

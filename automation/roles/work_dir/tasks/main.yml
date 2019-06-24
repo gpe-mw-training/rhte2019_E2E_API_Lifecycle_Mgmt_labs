@@ -3,7 +3,7 @@
 - name: create base work directory
   command: mkdir -p /tmp/{{ base_name }}
 
-- name: create work directory
+- name: create work directory {{ work_dir_name }}
   command: mktemp -d /tmp/{{ base_name }}/{{ work_dir_name }}-XXXXXX
   register: mktemp
   changed_when: False

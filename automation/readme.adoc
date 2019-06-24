@@ -1,11 +1,21 @@
 . Via the oc utility, ensure you are authenticated into a remote OCP environment as a cluster admin
 
-. Execute this ansible:
+. Prepare local ansible:
 +
 -----
 $ sudo pip install openshift
+-----
 
+. Install:
++
+-----
 $ ansible-playbook -i localhost, -c local e2e_api_mgmt.yml
+-----
+
+. Uninstall:
++
+-----
+$ ansible-playbook -i localhost, -c local e2e_api_mgmt.yml --tags uninstall 
 -----
 
 == 3scale API Manager

@@ -2,7 +2,12 @@
 
 dependencies:
   - role: work_dir
+    vars:
+      work_dir_name: "{{ app_name }}"
   - role: openshift_project
+    vars:
+      ocp_project: "{{ base_name }}-cicd"
+      is_control_plane: true
     when: >
       ACTION is not defined or
       ACTION is none or

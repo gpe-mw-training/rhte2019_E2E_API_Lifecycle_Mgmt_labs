@@ -16,6 +16,7 @@
     quota_pv_claims: 10
   when: is_control_plane|bool
 
+
 - name: clusterquota template
   template:
     src: "{{ resources_home_dir }}/openshift/clusterquota.yml"
@@ -32,3 +33,9 @@
     ACTION is none or
     ACTION|trim() == "" or
     ACTION|trim() == "install" )
+
+- name: delete admin clusterquota 
+  shell: "oc delete clusterquota quota-{{ base_name }}-{{ ocp_admin }}"
+  when: is_control_plane|bool
+  tags: [ never, uninstall ]
+
