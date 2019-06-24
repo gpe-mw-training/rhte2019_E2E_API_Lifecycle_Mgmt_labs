@@ -2,8 +2,8 @@
 
 is_control_plane: true
 
-app_name: "{{ base_name }}-jenkins"
-ocp_project: "{{ app_name }}"
+app_name: "{{ base_name }}-cicd"
+ocp_project: "{{ base_name }}-jenkins"
 ocp_project_desc: "nexus configured with RHT maven repos"
 ocp_project_display_name: "{{ ocp_project }}"
 project_admin: "{{ ocp_admin }}"
@@ -11,7 +11,7 @@ project_admin: "{{ ocp_admin }}"
 JENKINS_SERVICE_NAME: "{{ app_name }}"
 JNLP_SERVICE_NAME: jenkins-jnlp
 ENABLE_OAUTH: "true"
-MEMORY_LIMIT: 4Gi
+MEMORY_LIMIT: 3Gi
 VOLUME_CAPACITY: 8Gi
 NAMESPACE: openshift
 DISABLE_ADMINISTRATIVE_MONITORS: "true"

@@ -1,6 +1,28 @@
 kind: List
 apiVersion: v1
 items:
+
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: custom-jenkins-build
+  spec:
+    source:                       
+      git:
+        uri: https://github.com/custom/repository
+      type: Git
+    strategy:                     
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: {{ JENKINS_IMAGE_STREAM_TAG }}
+          namespace: {{ NAMESPACE }}
+      type: Source
+    output:                       
+      to:
+        kind: ImageStreamTag
+        name: gpte-jenkins:1.0
+
 - apiVersion: v1
   kind: Route
   metadata:
@@ -106,8 +128,9 @@ items:
         - jenkins
         from:
           kind: ImageStreamTag
-          name: {{ JENKINS_IMAGE_STREAM_TAG }}
-          namespace: {{ NAMESPACE }}
+          #name: {{ JENKINS_IMAGE_STREAM_TAG }}
+          name: gpte-jenkins:1.0
+          #namespace: {{ NAMESPACE }}
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange

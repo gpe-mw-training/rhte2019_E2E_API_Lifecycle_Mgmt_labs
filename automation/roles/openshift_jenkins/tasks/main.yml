@@ -1,6 +1,16 @@
 ---
 
-- name: deploy jenkins
+- name: configure jenkins slave with 3scale toolbox utility
+  template:
+    src: "{{ resources_home_dir }}/jenkins/3scale_toolbox_slave_pod.yml"
+    dest: "{{ work_dir }}/3scale_toolbox_slave_pod.yml"
+  changed_when: false
+- k8s:
+    state: present
+    namespace: "{{ ocp_project }}"
+    src: "{{ work_dir }}/3scale_toolbox_slave_pod.yml"
+
+- name: build and deploy jenkins
   template:
     src: "{{ resources_home_dir }}/jenkins/gpte-jenkins-persistent.yml"
     dest: "{{ work_dir }}/gpte-jenkins-persistent.yml"
@@ -19,3 +29,6 @@
   retries: 20
   delay: 30
   changed_when: false
+
+- name: "provide {{ ocp_user }} with view access to {{ ocp_project }}"
+  shell: "{{ openshift_cli }} oadm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"

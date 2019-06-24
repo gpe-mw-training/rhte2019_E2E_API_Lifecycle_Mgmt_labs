@@ -23,3 +23,6 @@
 - import_tasks: configure_repository_loop.yml
   vars:
     proxy_repos: "{{ nexus_remote_proxy_repos }}"
+
+- name: "provide {{ ocp_user }} with view access to {{ ocp_project }}"
+  shell: "{{ openshift_cli }} oadm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"

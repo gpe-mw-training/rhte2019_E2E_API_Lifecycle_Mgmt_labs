@@ -10,6 +10,8 @@
     state: present
     src: "{{ work_dir }}/project.yml"
 
+# oc get secret imagestreamsecret -n openshift -o yaml --export=true
+
 #- name: assign user "{{ project_admin }}" as project admin in "{{ ocp_project }}"
 #  oc_adm_policy_user:
 #    state: present

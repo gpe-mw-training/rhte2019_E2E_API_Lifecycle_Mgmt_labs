@@ -40,3 +40,14 @@ $ 3scale remote add openbanking-dev https://4507a1aa1a16b5f7544661bbde4aaa9dcf6a
 $ 3scale application-plan list -k openbanking-dev api
 
 -----
+
+== TO-DO
+. Customize Jenkins master configs 
+.. https://docs.openshift.com/container-platform/3.11/using_images/other_images/jenkins.html#configuring-the-jenkins-kubernetes-plug-in
+
+. Add jobs to jenkins
+.. HTTP POST config.xml to https://jenkins-openbanking-cicd.apps-0bf1.generic.opentlc.com/createItem
+.. HEADER:  Content-Type: application/xml
+.. https://jenkins-openbanking-cicd.apps-0bf1.generic.opentlc.com/restart
+       
+. Replace jenkins with tekton

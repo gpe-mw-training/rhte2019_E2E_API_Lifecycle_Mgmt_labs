@@ -16,13 +16,13 @@
     quota_pv_claims: 10
   when: is_control_plane|bool
 
-- name: nexus template
+- name: clusterquota template
   template:
     src: "{{ resources_home_dir }}/openshift/clusterquota.yml"
     dest: "{{ work_dir }}/clusterquota.yml"
   changed_when: false
 
-- name: "Create user Quota - {{ quota_name }} " 
+- name: "Create Quota - {{ quota_name }} " 
   k8s:
     state: present
     src: "{{ work_dir }}/clusterquota.yml"
