@@ -30,8 +30,9 @@
   delay: 30
   changed_when: false
 
-- name: "provide {{ ocp_user }} with view access to {{ ocp_project }}"
-  shell: "{{ openshift_cli }} adm policy add-role-to-user view {{ ocp_user }} -n {{ ocp_project }}"
+# Provide user with ability to create new jobs in Jenkins
+- name: "provide {{ ocp_user }} with admin access to {{ ocp_project }}"
+  shell: "{{ openshift_cli }} adm policy add-role-to-user admin {{ ocp_user }} -n {{ ocp_project }}"
 
 - name: delete project
   k8s:
