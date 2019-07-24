@@ -16,10 +16,10 @@ pipeline {
         string (defaultValue: 'notinuse', name:'OPENSHIFT_HOST', description:'open shift cluster url')
         string (defaultValue: 'notinuse', name:'OPENSHIFT_TOKEN', description:'open shift token')
         string (defaultValue: 'docker-registry.default.svc:5000', name:'IMAGE_REGISTRY', description:'open shift token')
-        string (defaultValue: 'openshift-dev', name:'IMAGE_NAMESPACE', description:'name space where image deployed')
-        string (defaultValue: 'openshift-dev', name:'DEV_PROJECT', description:'build or development project')
-        string (defaultValue: 'openshift-test', name:'TEST_PROJECT', description:'Test project')
-        string (defaultValue: 'openshift-prod', name:'PROD_PROJECT', description:'Production project')
+        string (defaultValue: 'openbanking-cicd', name:'IMAGE_NAMESPACE', description:'name space where image deployed')
+        string (defaultValue: 'openbanking-api-dev', name:'DEV_PROJECT', description:'build or development project')
+        string (defaultValue: 'openbanking-api-test', name:'TEST_PROJECT', description:'Test project')
+        string (defaultValue: 'openbanking-api-prod', name:'PROD_PROJECT', description:'Production project')
         string (defaultValue: 'https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git', name:'GIT_REPO', description:'Git source')
         string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
         booleanParam (defaultValue: false, name:'SELECT_DEPLOY_TO_PROD', description:'Approval to deploy to Production (default: no deployment to production)')
@@ -49,7 +49,7 @@ pipeline {
 
                     echo "Prepare 3scale Configuration"
                     service = toolbox.prepareThreescaleService(
-                            openapi: [filename: "cicd-3scale/3scaletoolbox/openapi-spec.json"],
+                            openapi: [filename: "cicd-3scale/3scaletoolbox/customer-api-apikey.json"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           environmentName               :  envName,
                                           publicStagingWildcardDomain: params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
@@ -143,7 +143,7 @@ pipeline {
 
                     echo "Prepare 3scale Configuration"
                     service = toolbox.prepareThreescaleService(
-                            openapi: [filename: "cicd-3scale/3scaletoolbox/openapi-spec.json"],
+                            openapi: [filename: "cicd-3scale/3scaletoolbox/customer-api-apikey.json"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           privateBaseUrl                : backend_service,
                                           privateBasePath               : "/cicd",
