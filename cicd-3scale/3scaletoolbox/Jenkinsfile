@@ -54,7 +54,7 @@ pipeline {
                                           publicStagingWildcardDomain: params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
                                           publicProductionWildcardDomain: params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN != "" ? params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN : null
                                         ],
-                            toolbox: [openshiftProject: params.DEV_PROJECT, destination: params.TARGET_INSTANCE,
+                            toolbox: [openshiftProject: params.IMAGE_NAMESPACE, destination: params.TARGET_INSTANCE,
                                       image           : params.TOOLBOX_IMAGE_REGISTRY,
                                       insecure        : params.DISABLE_TLS_VALIDATION == "yes",
                                       verbose         : "true",
