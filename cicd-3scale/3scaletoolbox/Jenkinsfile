@@ -51,6 +51,8 @@ pipeline {
                             openapi: [filename: "cicd-3scale/3scaletoolbox/customer-api-apikey.json"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           environmentName               :  envName,
+                                          privateBaseUrl                : backend_service,
+                                          privateBasePath               : "/camel",
                                           publicStagingWildcardDomain: params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
                                           publicProductionWildcardDomain: params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN != "" ? params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN : null
                                         ],
@@ -91,7 +93,7 @@ pipeline {
                     sh """set -e +x
                           curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${
                         sandbox_endpoint
-                    }/cicd/maingateway/profile/11111?alertType=ACCIDENT"&api-key=${service.applications[0].userkey}"
+                    }/camel/customer?"api-key=${service.applications[0].userkey}"
                         """
 
                     echo "Promote to production"
@@ -184,7 +186,7 @@ pipeline {
                     def sandbox_endpoint = proxy.sandbox_endpoint
 
                     sh """set -e +x
-                          curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${ sandbox_endpoint}/cicd/maingateway/profile/11111?alertType=ACCIDENT"&api-key=${service.applications[0].userkey}"
+                          curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${ sandbox_endpoint}/camel/customer?"api-key=${service.applications[0].userkey}"
                         """
 
                     echo "Promote to production"

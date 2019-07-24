@@ -5,7 +5,7 @@
         "description": "Customer API",
         "version": "1.0"
     },
-  "host" : "",
+  "host" : "localhost",
   "basePath" : "/camel/",
   "tags" : [ {
     "name" : "Customer",
