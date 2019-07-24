@@ -5,8 +5,6 @@
         "description": "Customer API",
         "version": "1.0"
     },
-  "host" : "localhost",
-  "basePath" : "/camel/",
   "tags" : [ {
     "name" : "Customer",
     "description" : "CustomerAPI"
@@ -76,5 +74,11 @@
   },
   "security" : [ {
     "apikey" : [ ]
-  } ]
+  } ],
+
+  "host": "localhost",
+  "basePath": "/camel",
+  "schemes": [
+    "http"
+  ]
 }
