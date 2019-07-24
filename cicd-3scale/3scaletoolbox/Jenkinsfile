@@ -42,9 +42,8 @@ pipeline {
 
                     def envName = params.TEST_PROJECT
                     def app_name= 'gateway-service'
-                    def backend_service = sh(script: "oc get route ${app_name} -o jsonpath=\'{.spec.host}\' -n ${envName}", returnStdout: true)
-                    def targetPort = sh(script: "oc get route ${app_name} -o jsonpath=\'{.spec.port.targetPort}\' -n ${envName}", returnStdout: true)
-                    backend_service=  "http://"+backend_service
+ 
+                    backend_service=  params.PRIVATE_BASE_URL
                     println "${backend_service} "
 
                     echo "Prepare 3scale Configuration"
