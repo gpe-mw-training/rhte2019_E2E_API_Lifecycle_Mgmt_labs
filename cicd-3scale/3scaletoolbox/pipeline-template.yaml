@@ -76,7 +76,7 @@ parameters:
   value: master
   required: true
 - name: PRIVATE_BASE_URL
-  value: http://gateway-service.openbanking-api-dev.svc.cluster.local:8080
+  value: http://customers.openbanking-api-dev.svc.cluster.local:8080
   required: true
 - name: PUBLIC_PRODUCTION_WILDCARD_DOMAIN
   value: prod.apps-52ec.generic.opentlc.com
