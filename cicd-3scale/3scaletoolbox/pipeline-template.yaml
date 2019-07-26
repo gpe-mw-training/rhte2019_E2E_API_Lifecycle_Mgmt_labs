@@ -103,7 +103,7 @@ parameters:
   value: 3scale-toolbox
   required: true  
 - name: TARGET_INSTANCE
-  value: instance_a
+  value: openbanking-dev
   required: true  
 - name: DEVELOPER_ACCOUNT_ID
   required: true
@@ -112,7 +112,7 @@ parameters:
 - name: PLAN_YAML_FILE_PATH
   value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs/master/cicd-3scale/3scaletoolbox/plan.yaml
 - name: TOOLBOX_IMAGE_REGISTRY
-  value: quay.io/satyaj/3scale-toolbox-container:1.2-2
+  value: toolbox:1.2-2
 
 
 

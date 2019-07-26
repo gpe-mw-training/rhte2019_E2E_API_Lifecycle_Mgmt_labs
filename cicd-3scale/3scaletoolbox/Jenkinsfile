@@ -53,7 +53,7 @@ pipeline {
                                           environmentName               :  envName,
                                           privateBaseUrl                : backend_service,
                                           privateBasePath               : "/camel",
-                                          publicStagingWildcardDomain: params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
+                                          publicStagingWildcardDomain   : params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
                                           publicProductionWildcardDomain: params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN != "" ? params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN : null
                                         ],
                             toolbox: [openshiftProject: params.IMAGE_NAMESPACE, destination: params.TARGET_INSTANCE,
@@ -65,7 +65,6 @@ pipeline {
                             applicationPlans: [
                                     [systemName: "plan1", name: "plan1", defaultPlan: true, costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
                                     [systemName: "silver", name: "Silver", costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
-                                    [artefactFile: params.PLAN_YAML_FILE_PATH],
                             ],
                             applications: [
                                     [name: envName, description: "This is used for test environment ", plan: "plan1", account: params.DEVELOPER_ACCOUNT_ID]
@@ -147,7 +146,7 @@ pipeline {
                             openapi: [filename: "cicd-3scale/3scaletoolbox/customer-api-apikey.json"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           privateBaseUrl                : backend_service,
-                                          privateBasePath               : "/cicd",
+                                          privateBasePath               : "/camel",
                                           environmentName               : envName,
                                           publicStagingWildcardDomain: params.PUBLIC_STAGING_WILDCARD_DOMAIN != "" ? params.PUBLIC_STAGING_WILDCARD_DOMAIN : null,
                                           publicProductionWildcardDomain: params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN != "" ? params.PUBLIC_PRODUCTION_WILDCARD_DOMAIN : null
@@ -160,7 +159,6 @@ pipeline {
                             applicationPlans: [
                                     [systemName: "plan1", name: "plan1", defaultPlan: true, costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
                                     [systemName: "silver", name: "Silver", costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
-                                    [artefactFile: params.PLAN_YAML_FILE_PATH],
                             ],
                             applications: [
                                     [name:envName, description: "This is used for production", plan: "plan1", account: params.DEVELOPER_ACCOUNT_ID]
