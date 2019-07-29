@@ -87,16 +87,14 @@ pipeline {
                     echo "Run integration tests"
 
 
-					def proxy = service.readProxy("sandbox")
-					def userkey = service.applications[0].userkey
-					sh """set -e
-					echo "Public Staging Base URL is ${proxy.sandbox_endpoint}"
-					echo "userkey is ${userkey}"
+
+                    def proxy = service.readProxy("sandbox")
+                    def sandbox_endpoint = proxy.sandbox_endpoint
 
                     sh """set -e +x
-                          curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${
-                        sandbox_endpoint
-                    }/camel/customer?"api-key=${service.applications[0].userkey}"
+						echo "Public Staging Base URL is ${proxy.sandbox_endpoint}"
+						echo "userkey is ${userkey}"
+                        curl -sfk -w "Customer: %{http_code}\n" -o /dev/null -s ${sandbox_endpoint}/camel/customer?"user_key=${service.applications[0].userkey}"
                         """
 
                     echo "Promote to production"
