@@ -27,7 +27,7 @@ def developerAccountId = params.DEVELOPER_ACCOUNT_ID
  */
 def publicStagingBaseURL = params.STAGING_PUBLIC_BASE_URL
 def publicProductionBaseURL = params.PRODUCTION_PUBLIC_BASE_URL
-def targetSystemName = baseSystemname + "-" + targetInstance + "BeerCatalog"
+def targetSystemName = baseSystemName + "-" + targetInstance + "BeerCatalog"
 
 node() {
   stage("Fetch OpenAPI") {
