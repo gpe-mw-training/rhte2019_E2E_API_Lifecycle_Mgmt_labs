@@ -65,7 +65,7 @@ parameters:
   value: master
   required: true
 - name: PRIVATE_BASE_URL
-  value: http://beer-catalog.openbanking-api-dev.svc.cluster.local:8080
+  value: http://beer-catalog.openbanking-api-dev.svc.cluster.local:8080/api
   required: true
 - name: PRODUCTION_PUBLIC_BASE_URL
   value: https://openbanking-dev-mt-prod-generic.apps-52ec.generic.opentlc.com
