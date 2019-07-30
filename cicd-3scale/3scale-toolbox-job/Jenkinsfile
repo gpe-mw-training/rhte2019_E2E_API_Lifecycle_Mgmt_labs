@@ -51,11 +51,11 @@ node() {
   }
   
   stage("Create an Application Plan") {
-    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "test", "-n", "Test Plan", "--default" ])
+    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "test", "-n", "Test Plan", "--default", "-k" ])
   }
 
   stage("Create an Application") {
-    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Test Application", "--description=Created by Jenkins", "--plan=test", "--service=${targetSystemName}" ])
+    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Test Application", "--description=Created by Jenkins", "--plan=test", "--service=${targetSystemName}" , "-k"])
   }
 
   stage("Run integration tests") {
@@ -80,7 +80,7 @@ node() {
   }
   
   stage("Promote to production") {
-    runToolbox([ "3scale", "proxy", "promote", targetInstance, targetSystemName ])
+    runToolbox([ "3scale", "proxy", "promote", targetInstance, targetSystemName , "-k"])
   }
 }
 
@@ -144,7 +144,7 @@ def runToolbox(args) {
   oc delete job toolbox --ignore-not-found
   sleep 2
   oc create -f job.yaml
-  sleep 30 # Adjust the sleep duration to your server velocity
+  sleep 20 # Adjust the sleep duration to your server velocity
   """
   
   // ...before collecting logs!
