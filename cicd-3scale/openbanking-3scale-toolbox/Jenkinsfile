@@ -48,7 +48,7 @@ pipeline {
 
                     echo "Prepare 3scale Configuration"
                     service = toolbox.prepareThreescaleService(
-                            openapi: [filename: "cicd-3scale/3scaletoolbox/customer-api-apikey.json"],
+                            openapi: [filename: "cicd-3scale/openbanking-3scale-toolbox/customer-api-apikey.json"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           environmentName               :  envName,
                                           privateBaseUrl                : backend_service,
