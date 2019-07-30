@@ -65,13 +65,13 @@ parameters:
   value: master
   required: true
 - name: PRIVATE_BASE_URL
-  value: http://customers.openbanking-api-dev.svc.cluster.local:8080
+  value: http://beer-catalog.openbanking-api-dev.svc.cluster.local:8080
   required: true
 - name: PRODUCTION_PUBLIC_BASE_URL
-  value: https://beercatalog-api-prod.apps-52ec.generic.opentlc.com
+  value: https://openbanking-dev-mt-prod-generic.apps-52ec.generic.opentlc.com
   #required: true
 - name: STAGING_PUBLIC_BASE_URL
-  value: https://beercatalog-api-staging.apps-52ec.generic.opentlc.com
+  value: https://openbanking-dev-mt-stage-generic.apps-52ec.generic.opentlc.com
   #required: true
 - name: API_BASE_SYSTEM_NAME
   value: 3scale-mt-api0

@@ -144,7 +144,7 @@ def runToolbox(args) {
   oc delete job toolbox --ignore-not-found
   sleep 2
   oc create -f job.yaml
-  sleep 20 # Adjust the sleep duration to your server velocity
+  sleep 5 # Adjust the sleep duration to your server velocity
   """
   
   // ...before collecting logs!
