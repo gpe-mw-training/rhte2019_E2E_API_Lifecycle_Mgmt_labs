@@ -35,6 +35,7 @@ node() {
     sh """
     curl -sfk -o swagger.json https://raw.githubusercontent.com/microcks/api-lifecycle/master/beer-catalog-demo/api-contracts/beer-catalog-api-swagger.json
     oc delete configmap openapi --ignore-not-found
+    sleep 2
     oc create configmap openapi --from-file="swagger.json"
     """
   }
