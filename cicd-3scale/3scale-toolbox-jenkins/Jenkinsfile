@@ -84,7 +84,7 @@ pipeline {
                     sh """set -e +x
                           curl -k -f -w "Location: %{http_code}\n" -o /dev/null -s ${
                         sandbox_endpoint
-                    }/location  -H api-key=${service.applications[0].userkey} 
+                    }/location -H'api-key=${service.applications[0].userkey}'
                         """
 
                     echo "Promote to production"
