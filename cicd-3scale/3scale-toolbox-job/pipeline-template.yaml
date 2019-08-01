@@ -1,0 +1,119 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: pipeline-3scale-toolbox-job
+metadata:
+  annotations:
+    description: 3scale API publishing Pipeline
+  name: 3scale-toolbox-job
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      name: 3scale-toolbox-job
+    name: 3scale-toolbox-job
+  spec:
+    output: null
+    postCommit: null
+    resources: null
+    runPolicy: Serial
+    source:
+      type: None
+    source:
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: cicd-3scale/3scale-toolbox-job/Jenkinsfile
+        env:
+        - name: GIT_BRANCH
+          value: ${GIT_BRANCH}
+        - name: GIT_REPO
+          value: ${GIT_REPO}
+        - name: PRIVATE_BASE_URL
+          value: ${PRIVATE_BASE_URL}
+        - name: PRODUCTION_PUBLIC_BASE_URL
+          value: ${PRODUCTION_PUBLIC_BASE_URL}
+        - name: STAGING_PUBLIC_BASE_URL
+          value: ${STAGING_PUBLIC_BASE_URL}
+        - name: API_BASE_SYSTEM_NAME
+          value: ${API_BASE_SYSTEM_NAME}
+        - name: DEV_PROJECT
+          value: ${DEV_PROJECT}
+        - name: TEST_PROJECT
+          value: ${TEST_PROJECT}
+        - name: PROD_PROJECT
+          value: ${PROD_PROJECT}
+        - name: IMAGE_NAMESPACE
+          value: ${IMAGE_NAMESPACE}
+        - name: SECRET_NAME
+          value: ${SECRET_NAME}
+        - name: TARGET_INSTANCE
+          value: ${TARGET_INSTANCE}
+        - name: DEVELOPER_ACCOUNT_ID
+          value: ${DEVELOPER_ACCOUNT_ID}
+        - name: DISABLE_TLS_VALIDATION
+          value: ${DISABLE_TLS_VALIDATION}
+parameters:
+- name: GIT_REPO
+  value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git
+  required: true
+- name: GIT_BRANCH
+  value: master
+  required: true
+- name: PRIVATE_BASE_URL
+  value: http://beer-catalog.openbanking-api-dev.svc.cluster.local:8080/api
+  required: true
+- name: PRODUCTION_PUBLIC_BASE_URL
+  value: https://openbanking-dev-mt-prod-generic.apps-52ec.generic.opentlc.com
+  #required: true
+- name: STAGING_PUBLIC_BASE_URL
+  value: https://openbanking-dev-mt-stage-generic.apps-52ec.generic.opentlc.com
+  #required: true
+- name: API_BASE_SYSTEM_NAME
+  value: 3scale-mt-api0
+  required: true
+- name: DEV_PROJECT
+  required: true
+- name: TEST_PROJECT
+  required: true
+- name: PROD_PROJECT
+  required: true
+- name: IMAGE_NAMESPACE
+  required: true
+- name: SECRET_NAME
+  value: 3scale-toolbox
+  required: true  
+- name: TARGET_INSTANCE
+  value: openbanking-dev
+  required: true  
+- name: DEVELOPER_ACCOUNT_ID
+  required: true
+- name: DISABLE_TLS_VALIDATION
+  value: "yes"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

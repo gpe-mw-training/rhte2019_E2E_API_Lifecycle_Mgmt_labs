@@ -1,0 +1,84 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "CustomerAPI",
+        "description": "Customer API",
+        "version": "1.0"
+    },
+  "tags" : [ {
+    "name" : "Customer",
+    "description" : "CustomerAPI"
+  } ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/customer": {
+            "get": {
+                "summary": "getCustomers",
+                "description": "Get List of Customers",
+                "operationId": "getCustomer",
+                "responses": {
+                    "200": {
+                        "description": "Response"
+                    }
+                }
+            },
+            "post": {
+                "summary": "CreateCustomers",
+                "description": "Create list of customers",
+                "operationId": "CreateCustomer",
+                "responses": {
+                    "201": {
+                        "description": "Response",
+                        "schema": {
+                            "$ref": "#/definitions/CustomerData"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CustomerData": {
+            "title": "Root Type for CustomerData",
+            "description": "Customer Data   ",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "company": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "example": "{\n    \"name\":\"Abdellatif\", \n    \"company\":\"redhat\", \n    \"phone\":\"01020304\", \n    \"email\":\"Abdellatif@xyz.com\"\n}"
+        }
+    },
+  "securityDefinitions" : {
+    "apikey" : {
+      "type" : "apiKey",
+      "description" : "Use a 3scale API Key",
+      "name" : "api-key",
+      "in" : "query"
+    }
+  },
+  "security" : [ {
+    "apikey" : [ ]
+  } ],
+
+  "host": "localhost",
+  "basePath": "/camel",
+  "schemes": [
+    "http"
+  ]
+}
