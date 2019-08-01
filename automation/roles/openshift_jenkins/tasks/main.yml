@@ -34,6 +34,13 @@
 - name: "provide {{ ocp_user }} with admin access to {{ ocp_project }}"
   shell: "{{ openshift_cli }} adm policy add-role-to-user admin {{ ocp_user }} -n {{ ocp_project }}"
 
+# TO-DO: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs/issues/4
+#
+# oc policy add-role-to-user edit system:serviceaccount:openbanking-cicd:openbanking-jenkins -n openbanking-api-dev
+# oc policy add-role-to-user edit system:serviceaccount:openbanking-cicd:openbanking-jenkins -n openbanking-api-test
+# oc policy add-role-to-user edit system:serviceaccount:openbanking-cicd:openbanking-jenkins -n openbanking-api-prod
+
+
 - name: delete project
   k8s:
     state: absent

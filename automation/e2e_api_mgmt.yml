@@ -2,5 +2,6 @@
   become: false
   gather_facts: False
   roles:
+    - openbanking_projects
     - openshift_jenkins
     - openshift_nexus2
