@@ -90,6 +90,15 @@ pipeline {
                     echo "Promote to production"
                     service.promoteToProduction()
 
+					sleep 30
+
+                    sh """set -e +x
+                          curl -k -f -w "Location: %{http_code}\n" -o /dev/null -s ${
+                        params.PRODUCTION_PUBLIC_BASE_URL
+                    }/location -H'api-key: ${service.applications[0].userkey}'
+                        """		
+
+					echo "Completed service deployment to ${envName}"
 
                 }
             }
