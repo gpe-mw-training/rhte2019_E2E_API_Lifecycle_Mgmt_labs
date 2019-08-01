@@ -49,7 +49,7 @@ pipeline {
 										  productionPublicBaseURL		: productionPublicBaseURL,
                                           environmentName               :  envName
                                         ],
-                            toolbox: [openshiftProject: params.DEV_PROJECT, destination: params.TARGET_INSTANCE,
+                            toolbox: [openshiftProject: params.IMAGE_NAMESPACE, destination: params.TARGET_INSTANCE,
                                       image           : params.TOOLBOX_IMAGE_REGISTRY,
                                       insecure        : params.DISABLE_TLS_VALIDATION == "yes",
                                       secretName      : params.SECRET_NAME],
