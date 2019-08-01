@@ -102,10 +102,8 @@ parameters:
 - name: DISABLE_TLS_VALIDATION
   value: "yes"
 - name: APPLICATION_NAME
-  value: "event-api'
+  value: "event-api"
   required: true
-
-
 
 
 
