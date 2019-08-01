@@ -42,7 +42,7 @@ pipeline {
 
                     echo "Prepare 3scale Configuration"
                     service = toolbox.prepareThreescaleService(
-                            openapi: [filename: "cicd-3scale/3scale-toolbox-jenkins/swagger.json"],
+                            openapi: [filename: "cicd-3scale/3scale-toolbox-jenkins/swagger.yaml"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           privateBaseUrl                : backend_service,
  										  stagingPublicBaseUrl			: stagingPublicBaseUrl,
