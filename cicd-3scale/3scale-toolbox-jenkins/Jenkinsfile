@@ -1,0 +1,119 @@
+#!groovy
+library identifier: '3scale-toolbox-jenkins@master',
+        retriever: modernSCM([$class: 'GitSCMSource',
+                              remote: 'https://github.com/rh-integration/3scale-toolbox-jenkins.git',
+                              traits: [[$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']]])
+
+def service = null
+
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+    parameters{
+        string (defaultValue: 'notinuse', name:'OPENSHIFT_HOST', description:'open shift cluster url')
+        string (defaultValue: 'notinuse', name:'OPENSHIFT_TOKEN', description:'open shift token')
+        string (defaultValue: 'docker-registry.default.svc:5000', name:'IMAGE_REGISTRY', description:'open shift token')
+        string (defaultValue: 'openbanking-cicd', name:'IMAGE_NAMESPACE', description:'name space where image deployed')
+        string (defaultValue: 'openbanking-api-dev', name:'DEV_PROJECT', description:'build or development project')
+        string (defaultValue: 'openbanking-api-test', name:'TEST_PROJECT', description:'Test project')
+        string (defaultValue: 'openbanking-api-prod', name:'PROD_PROJECT', description:'Production project')
+        string (defaultValue: 'https://github.com/rh-integration/IntegrationApp-Automation.git', name:'GIT_REPO', description:'Git source')
+        string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
+    }
+    stages {
+
+        stage('Checkout Source') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('3scale Publish API to Test') {
+            steps {
+                script {
+
+                    def envName = params.TEST_PROJECT
+                    def app_name= params.APPLICATION_NAME
+                    def backend_service = params.PRIVATE_BASE_URL
+					def stagingPublicBaseUrl = params.STAGING_PUBLIC_BASE_URL
+					def productionPublicBaseUrl = params.PRODUCTION_PUBLIC_BASE_URL
+
+                    echo "Prepare 3scale Configuration"
+                    service = toolbox.prepareThreescaleService(
+                            openapi: [filename: "cicd-3scale/3scale-toolbox-jenkins/openapi-spec.json"],
+                            environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
+                                          privateBaseUrl                : backend_service,
+ 										  stagingPublicBaseUrl			: stagingPublicBaseUrl,
+										  productionPublicBaseUrl		: productionPublicBaseUrl,
+                                          environmentName               :  envName
+                                        ],
+                            toolbox: [openshiftProject: params.DEV_PROJECT, destination: params.TARGET_INSTANCE,
+                                      image           : params.TOOLBOX_IMAGE_REGISTRY,
+                                      insecure        : params.DISABLE_TLS_VALIDATION == "yes",
+                                      secretName      : params.SECRET_NAME],
+                            service: [:],
+                            applicationPlans: [
+                                    [systemName: "plan1", name: "plan1", defaultPlan: true, costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
+                                    [systemName: "silver", name: "Silver", costPerMonth: 100, setupFee: 10, trialPeriodDays: 5],
+                            ],
+                            applications: [
+                                    [name: envName, description: "This is used for test environment ", plan: "plan1", account: params.DEVELOPER_ACCOUNT_ID]
+
+                            ]
+                    )
+
+                    echo "toolbox version = " + service.toolbox.getToolboxVersion()
+
+                    echo "Import OpenAPI"
+                    service.importOpenAPI()
+                    echo "Service with system_name ${service.environment.targetSystemName} created !"
+
+                    echo "Create an Application Plan"
+                    service.applyApplicationPlans()
+
+                    echo "Create an Application"
+                    service.applyApplication()
+
+                    echo "Run integration tests"
+
+                    def proxy = service.readProxy("sandbox")
+                    def sandbox_endpoint = proxy.sandbox_endpoint
+
+                    sh """set -e +x
+                          curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${
+                        sandbox_endpoint
+                    }/cicd/maingateway/profile/11111?alertType=ACCIDENT"&api-key=${service.applications[0].userkey}"
+                        """
+
+                    echo "Promote to production"
+                    service.promoteToProduction()
+
+
+                }
+            }
+        }
+
+        stage('Wait for user to select module to push to production.') {
+            when {
+                expression {
+                    params.SELECT_DEPLOY_TO_PROD == true
+                }
+            }
+            steps {
+                script {
+                    try {
+                        timeout (time:2, unit:'HOURS') {
+                            env.userProdApproval = input(id: 'userInput', message: "Do you approve this build to promote to production?")
+                            env.userProdApproval = 'Approved'
+                        }
+                    } catch (exception) {
+                        env.userProdApproval='---'
+                    }
+                    println("User approval to production " + env.userProdApproval);
+                }
+            }
+        }
+    }
+}
