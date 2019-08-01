@@ -82,36 +82,15 @@ pipeline {
                     def sandbox_endpoint = proxy.sandbox_endpoint
 
                     sh """set -e +x
-                          curl -k -f -w "UserAlert: %{http_code}\n" -o /dev/null -s ${
+                          curl -k -f -w "Location: %{http_code}\n" -o /dev/null -s ${
                         sandbox_endpoint
-                    }/cicd/maingateway/profile/11111?alertType=ACCIDENT"&api-key=${service.applications[0].userkey}"
+                    }/location?api-key=${service.applications[0].userkey}"
                         """
 
                     echo "Promote to production"
                     service.promoteToProduction()
 
 
-                }
-            }
-        }
-
-        stage('Wait for user to select module to push to production.') {
-            when {
-                expression {
-                    params.SELECT_DEPLOY_TO_PROD == true
-                }
-            }
-            steps {
-                script {
-                    try {
-                        timeout (time:2, unit:'HOURS') {
-                            env.userProdApproval = input(id: 'userInput', message: "Do you approve this build to promote to production?")
-                            env.userProdApproval = 'Approved'
-                        }
-                    } catch (exception) {
-                        env.userProdApproval='---'
-                    }
-                    println("User approval to production " + env.userProdApproval);
                 }
             }
         }
