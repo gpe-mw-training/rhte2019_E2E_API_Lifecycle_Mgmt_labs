@@ -37,16 +37,16 @@ pipeline {
                     def envName = params.TEST_PROJECT
                     def app_name= params.APPLICATION_NAME
                     def backend_service = params.PRIVATE_BASE_URL
-					def stagingPublicBaseUrl = params.STAGING_PUBLIC_BASE_URL
-					def productionPublicBaseUrl = params.PRODUCTION_PUBLIC_BASE_URL
+					def stagingPublicBaseURL = params.STAGING_PUBLIC_BASE_URL
+					def productionPublicBaseURL = params.PRODUCTION_PUBLIC_BASE_URL
 
                     echo "Prepare 3scale Configuration"
                     service = toolbox.prepareThreescaleService(
                             openapi: [filename: "cicd-3scale/3scale-toolbox-jenkins/swagger.yaml"],
                             environment: [baseSystemName                : params.API_BASE_SYSTEM_NAME,
                                           privateBaseUrl                : backend_service,
- 										  stagingPublicBaseUrl			: stagingPublicBaseUrl,
-										  productionPublicBaseUrl		: productionPublicBaseUrl,
+ 										  stagingPublicBaseURL			: stagingPublicBaseURL,
+										  productionPublicBaseURL		: productionPublicBaseURL,
                                           environmentName               :  envName
                                         ],
                             toolbox: [openshiftProject: params.DEV_PROJECT, destination: params.TARGET_INSTANCE,
