@@ -1,0 +1,15 @@
+---
+
+dependencies:
+  - role: openshift_project
+    vars:
+      ocp_project: "{{ project_api_dev }}"
+      is_control_plane: false
+  - role: openshift_project
+    vars:
+      ocp_project: "{{ project_api_test }}"
+      is_control_plane: false
+  - role: openshift_project
+    vars:
+      ocp_project: "{{ project_api_prod }}"
+      is_control_plane: false

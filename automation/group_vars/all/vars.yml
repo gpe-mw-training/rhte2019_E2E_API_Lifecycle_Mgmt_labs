@@ -6,3 +6,7 @@ ocp_admin: api0
 ocp_user: user1
 resources_home_dir: "{{ playbook_dir }}/resources"
 use_cluster_quota: true
+
+project_api_dev: "{{ base_name }}-api-dev"
+project_api_test: "{{ base_name }}-api-test
+project_api_prod: "{{ base_name }}-api-prod

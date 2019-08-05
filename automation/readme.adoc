@@ -42,7 +42,13 @@ CREATE_GWS_WITH_EACH_TENANT=true
 gw_project_name=$orgName-gw
 -----
 
-== 3scale toolbox tests
+== 3scale toolbox
+
+. Install 3scale utility on workstation node
++
+-----
+$ rpm -ivh https://github.com/3scale/3scale_toolbox_packaging/releases/download/v0.12.3/3scale-toolbox-0.12.3-1.el7.x86_64.rpm
+-----
 
 -----
 
