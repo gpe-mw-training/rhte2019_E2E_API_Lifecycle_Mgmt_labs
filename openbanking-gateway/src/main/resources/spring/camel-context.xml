@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camelContext id="context1" xmlns="http://camel.apache.org/schema/spring">
+
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <handled><constant>true</constant></handled>
+            <setHeader headerName="Exchange.HTTP_RESPONSE_CODE">
+                <constant>500</constant>
+            </setHeader>
+            <setBody>
+                <simple>${exception.message}</simple>
+            </setBody>
+        </onException>
+
+        <restConfiguration component="servlet" apiContextPath="/openapi.json"/>
+
+        <rest id="rest1" path="/" enableCORS="true">
+            <get id="openapi.json" produces="application/json" uri="openapi.json">
+                <description>Gets the openapi document for this service</description>
+                <route id="rest1-route1">
+                    <setHeader id="setHeader-route1" headerName="Exchange.CONTENT_TYPE">
+                        <constant>application/vnd.oai.openapi+json</constant>
+                    </setHeader>
+                    <setBody id="setBody-route1">
+                        <simple>resource:classpath:openapi.json</simple>
+                    </setBody>
+                </route>
+            </get>
+        </rest>
+
+        <rest id="rest2" path="/open-data" bindingMode="json" enableCORS="true">
+            <get uri="/banks/{bank_id}/branches">
+                <description>get branches available by a specific bank</description>
+                <to uri="direct:rest1"/>
+            </get>
+            <get uri="/banks/{bank_id}/atms/{atm_id}">
+                <description>get atm info</description>
+                <to uri="direct:rest2"/>
+            </get>
+            <get uri="/banks">
+                <description>get list of banks</description>
+                <to uri="direct:rest3"/>
+            </get>
+            <get uri="/banks/{bank_id}">
+                <description>get bank details</description>
+                <to uri="direct:rest4"/>
+            </get>
+            <get uri="/banks/{bank_id}/atms">
+                <description>get bank atms</description>
+                <to uri="direct:rest5"/>
+            </get>
+            <get uri="/banks/{bank_id}/branches/{branch_id}">
+                <description>get branch info</description>
+                <to uri="direct:rest6"/>
+            </get>
+            <get uri="/banks/{bank_id}/products">
+                <description>get products</description>
+                <to uri="direct:rest7"/>
+            </get>
+            <get uri="/banks/{bank_id}/products/{product_id}">
+                <description>get product info</description>
+                <to uri="direct:rest8"/>
+            </get>
+        </rest>
+
+        <route id="route-845e4be1-e321-4c32-b133-8e0604598131">
+            <from id="from-ad92802c-2f76-4bdb-903f-ab9c535baeaf" uri="direct:rest1"/>
+            <to id="to-e72204c2-1bb0-450b-8d05-21c76258154c" uri="direct:501"/>
+        </route>
+        <route id="route-26111baf-cb8a-4e7f-82aa-c63010e14b76">
+            <from id="from-827f2ae5-dc3c-4938-87f8-f0ab180c4533" uri="direct:rest2"/>
+            <to id="to-2c972b80-2013-4ad2-aaa0-f2f99fdec09c" uri="direct:501"/>
+        </route>
+        <route id="route-872dba9b-e36f-46a5-ab56-de5202446fbe">
+            <from id="from-70e58b44-d3a2-499a-b38c-8f4a1dbe2877" uri="direct:rest3"/>
+            <to id="to-0d140d81-a1a0-4e6e-aebd-b4f8015790e6" uri="direct:200"/>
+        </route>
+        <route id="route-487fe04d-713c-47f1-b50e-c1ab936189b2">
+            <from id="from-ae245b25-fdf1-4db7-9a76-c0472657755b" uri="direct:rest4"/>
+            <to id="to-e441bb04-19cc-45c9-8610-e446b4744fd5" uri="direct:501"/>
+        </route>
+        <route id="route-b815d0ef-59af-431c-ba3c-98dc10188600">
+            <from id="from-56a19cb5-4804-408a-a992-fbf1e7a377c0" uri="direct:rest5"/>
+            <to id="to-81c5ab79-5c0e-4dbb-a62e-4c2139f2ffd2" uri="direct:501"/>
+        </route>
+        <route id="route-7bc5d72e-186b-4f5f-879a-f7ea69a09558">
+            <from id="from-9d6533f6-ce80-446d-960d-2a7753b986a8" uri="direct:rest6"/>
+            <to id="to-9a0bdb13-fb60-4e07-afa8-82bfddef5e25" uri="direct:501"/>
+        </route>
+        <route id="route-6ff9d20e-e863-40f7-96df-dabb38937a92">
+            <from id="from-8d4f0b82-0467-48d0-9969-f114df77b619" uri="direct:rest7"/>
+            <to id="to-1b6cff7e-bed2-466d-9efe-656031fb5aaf" uri="direct:501"/>
+        </route>
+        <route id="route-2cbe4667-c06d-40a5-b102-e6db7945deef">
+            <from id="from-213498d4-9ef7-42e2-a7aa-c7b68d6d8a71" uri="direct:rest8"/>
+            <to id="to-10bbbf95-a736-4992-82bf-4b7ada16e793" uri="direct:501"/>
+        </route>
+
+        <route id="route501">
+            <from id="from-route2" uri="direct:501"/>
+            <log id="log-route2" message="API operation not yet implemented: ${headers.CamelHttpMethod} ${headers.CamelHttpPath}"/>
+            <setHeader id="setHeader-route2" headerName="Exchange.HTTP_RESPONSE_CODE">
+                <constant>501</constant>
+            </setHeader>
+            <setBody id="setBody-route2">
+                <simple>API operation not implemented: ${headers.CamelHttpMethod} ${headers.CamelHttpPath}</simple>
+            </setBody>
+        </route>
+
+        <route id="route200">
+        	<from id="from-route200" uri="direct:200"/>
+        	<log message="Called Banks API Operation"/>
+            <setHeader id="setHeader-route200" headerName="Exchange.HTTP_RESPONSE_CODE">
+                <constant>200</constant>
+            </setHeader>  
+            <to uri="sql:SELECT * FROM usecase.banks;" />
+         </route>
+    </camelContext>
+</beans>
