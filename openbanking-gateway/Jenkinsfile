@@ -159,7 +159,7 @@ def promoteServiceSetup(openShiftHost, openShiftToken, svcName, registry, imageN
             oc create dc ${svcName} --image=${registry}/${imageNameSpace}/${svcName}:${tagName} -n ${projName} 2> /dev/null 
             oc rollout pause dc ${svcName} -n ${projName}  2> /dev/null
             oc patch dc ${svcName} -p '{"spec": {"template": {"spec": {"containers": [{"name": "default-container","imagePullPolicy": "Always"}]}}}}' -n ${projName} 2> /dev/null
-            oc patch dc ${svcName} -p '{"spec": {"template": {"spec": {"containers": [{"name": "default-container","resources": {"limits": {"cpu": "500m","memory": "512Mi"},}}]}}}}'  -n ${projName}  2> /dev/null
+            oc patch dc ${svcName} -p '{"spec": {"template": {"spec": {"containers": [{"name": "default-container","resources": {"limits": {"cpu": "500m","memory": "512Mi"}}}]}}}}'  -n ${projName}  2> /dev/null
             oc set env dc ${svcName} APP_NAME=${svcName} -n ${projName} 2> /dev/null
             oc rollout resume dc ${svcName} -n ${projName}  2> /dev/null
             oc expose dc ${svcName} --type=ClusterIP  --port=80 --protocol=TCP --target-port=8080 -n ${projName}  2> /dev/null
