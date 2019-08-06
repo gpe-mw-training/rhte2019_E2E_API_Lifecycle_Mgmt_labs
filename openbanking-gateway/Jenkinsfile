@@ -50,7 +50,7 @@ pipeline {
         stage('Pushing to Test') {
             environment {
                 srcTag = 'latest'
-                destTag = '${params.VERSION}-test'
+                destTag = '$env.VERSION-test'
             }
             steps {
                 echo "Deploy ${MODULE_NAME} to ${TEST_PROJECT} "
@@ -89,7 +89,7 @@ pipeline {
         stage('Pushing to Prod') {
             environment {
                 srcTag = 'latest'
-                destTag = '${params.VERSION}'
+                destTag = '$env.VERSION'
             }
             when {
               expression {
