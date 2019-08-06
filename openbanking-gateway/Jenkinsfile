@@ -81,6 +81,8 @@ pipeline {
             }
             steps {
                 script {
+                    echo "Waiting for deployment to complete prior starting smoke testing"
+                    sleep 60
                     sh "oc project ${TEST_PROJECT}"
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
@@ -133,7 +135,9 @@ pipeline {
             }
             steps {
                 script {
-                    serviceName = 'maingateway-service'
+                    echo "Waiting for deployment to complete prior starting smoke testing"
+                    sleep 60
+                    serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
                     makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
                 }
