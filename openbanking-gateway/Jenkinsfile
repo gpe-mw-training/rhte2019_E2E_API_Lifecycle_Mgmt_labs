@@ -53,7 +53,7 @@ pipeline {
 
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
-                    makeGetRequest("http://${serviceName}/${smokeTestOperation}")
+                    makeGetRequest("http://${serviceName}.${DEV_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
         }
@@ -84,7 +84,7 @@ pipeline {
                     sh "oc project ${TEST_PROJECT}"
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
-                    makeGetRequest("http://${serviceName}/${smokeTestOperation}")
+                    makeGetRequest("http://${serviceName}.${TEST_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
         }
@@ -135,7 +135,7 @@ pipeline {
                 script {
                     serviceName = 'maingateway-service'
                     smokeTestOperation='open-data/banks'
-                    makeGetRequest("http://${serviceName}/${smokeTestOperation}")
+                    makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
         }
