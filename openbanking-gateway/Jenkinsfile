@@ -82,8 +82,8 @@ pipeline {
             steps {
                 script {
                     sh "oc project ${TEST_PROJECT}"
-                    serviceName = 'maingateway-service'
-                    smokeTestOperation='cicd/maingateway/profile/11111?alertType=ACCIDENT'
+                    serviceName = 'openbanking-gateway'
+                    smokeTestOperation='open-data/banks'
                     makeGetRequest("http://${serviceName}/${smokeTestOperation}")
                 }
             }
@@ -134,7 +134,7 @@ pipeline {
             steps {
                 script {
                     serviceName = 'maingateway-service'
-                    smokeTestOperation='cicd/maingateway/profile/11111?alertType=ACCIDENT'
+                    smokeTestOperation='open-data/banks'
                     makeGetRequest("http://${serviceName}/${smokeTestOperation}")
                 }
             }
