@@ -1,0 +1,67 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+    template: pipeline
+metadata:
+  annotations:
+    description: RHTE CICD Deployment Pipeline
+  name: pipeline
+parameters:
+- name: GIT_REPO
+  value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git
+  required: true
+- name: GIT_BRANCH
+  value: master
+  required: true
+- name: DEV_PROJECT 
+  required: true
+  value: openbanking-api-dev
+- name: TEST_PROJECT 
+  required: true
+  value: openbanking-api-test
+- name: PROD_PROJECT 
+  required: true
+  value: openbanking-api-prod
+- name: IMAGE_REGISTRY
+  value: docker-registry.default.svc:5000
+  required: true
+- name: IMAGE_NAMESPACE 
+  required: true
+  value: openbanking-api-dev
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: openbanking-gateway-pipeline
+    labels:
+      app: "cicd-pipeline"
+  spec:
+    output: null
+    postCommit: null
+    resources: null
+    runPolicy: Serial
+    source:
+      type: None
+    source:
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: openbanking-gateway/Jenkinsfile
+        env:
+        - name: GIT_BRANCH
+          value: ${GIT_BRANCH}
+        - name: GIT_REPO
+          value: ${GIT_REPO}
+        - name: DEV_PROJECT 
+          value: ${DEV_PROJECT}
+        - name: TEST_PROJECT 
+          value: ${TEST_PROJECT}
+        - name: PROD_PROJECT 
+          value: ${PROD_PROJECT}
+        - name: IMAGE_NAMESPACE 
+          value: ${IMAGE_NAMESPACE}
+        - name: IMAGE_REGISTRY 
+          value: ${IMAGE_REGISTRY}
