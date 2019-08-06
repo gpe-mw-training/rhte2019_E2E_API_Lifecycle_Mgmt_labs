@@ -14,6 +14,7 @@ pipeline {
         string (defaultValue: 'openbanking-api-prod', name:'PROD_PROJECT', description:'Production project')
         string (defaultValue: 'https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git', name:'GIT_REPO', description:'Git source')
         string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
+        string (defaultValue: '1.0', name:'VERSION', description:'Version no of the application')
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'
@@ -49,7 +50,7 @@ pipeline {
         stage('Pushing to Test') {
             environment {
                 srcTag = 'latest'
-                destTag = 'promoteTest'
+                destTag = '${params.VERSION}-test'
             }
             steps {
                 echo "Deploy ${MODULE_NAME} to ${TEST_PROJECT} "
@@ -88,7 +89,7 @@ pipeline {
         stage('Pushing to Prod') {
             environment {
                 srcTag = 'latest'
-                destTag = 'promoteProd'
+                destTag = '${params.VERSION}'
             }
             when {
               expression {
@@ -114,7 +115,7 @@ pipeline {
                     sleep 60
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
-                    makeGetRequest("http://${serviceName}.${PROD_PROJECT}:80/${smokeTestOperation}")
+                    makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
         }
