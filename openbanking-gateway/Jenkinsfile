@@ -14,7 +14,7 @@ pipeline {
         string (defaultValue: 'openbanking-api-prod', name:'PROD_PROJECT', description:'Production project')
         string (defaultValue: 'https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git', name:'GIT_REPO', description:'Git source')
         string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
-        booleanParam (defaultValue: false, name:'SELECT_DEPLOY_TO_PROD', description:'Approval to deploy to Production (default: no deployment to production)')
+        booleanParam (defaultValue: true, name:'SELECT_DEPLOY_TO_PROD', description:'Approval to deploy to Production (default: deployment to production)')
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'

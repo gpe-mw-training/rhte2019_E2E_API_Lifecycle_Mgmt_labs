@@ -28,6 +28,9 @@ parameters:
 - name: IMAGE_NAMESPACE 
   required: true
   value: openbanking-api-dev
+- name: SELECT_DEPLOY_TO_PROD 
+  required: true
+  value: true
 objects:
 - apiVersion: v1
   kind: BuildConfig
