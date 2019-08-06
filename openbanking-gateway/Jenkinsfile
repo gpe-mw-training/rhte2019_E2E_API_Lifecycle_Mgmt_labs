@@ -14,7 +14,6 @@ pipeline {
         string (defaultValue: 'openbanking-api-prod', name:'PROD_PROJECT', description:'Production project')
         string (defaultValue: 'https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git', name:'GIT_REPO', description:'Git source')
         string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
-        booleanParam (defaultValue: true, name:'SELECT_DEPLOY_TO_PROD', description:'Approval to deploy to Production (default: deployment to production)')
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'
@@ -26,11 +25,6 @@ pipeline {
             }
         }
         stage('Build Service') {
-            when {
-              expression {
-                  params.SELECT_DEPLOY_TO_PROD == false
-              }
-            }
             steps {
                 echo "Building.. ${MODULE_NAME} "
                 build(env.MODULE_NAME)
@@ -41,11 +35,6 @@ pipeline {
             }
         }
         stage('Dev-Env smoke-test') {
-            when {
-                expression {
-                    params.SELECT_DEPLOY_TO_PROD == false
-                }
-            }
             steps {
                 script {
                     echo "Waiting for deployment to complete prior starting smoke testing"
@@ -62,11 +51,6 @@ pipeline {
                 srcTag = 'latest'
                 destTag = 'promoteTest'
             }
-            when {
-                expression {
-                    params.SELECT_DEPLOY_TO_PROD == false
-                }
-            }
             steps {
                 echo "Deploy ${MODULE_NAME} to ${TEST_PROJECT} "
                 promoteServiceSetup(params.OPENSHIFT_HOST, params.OPENSHIFT_TOKEN, env.MODULE_NAME,params.IMAGE_REGISTRY, params.IMAGE_NAMESPACE, env.destTag, params.TEST_PROJECT)
@@ -74,11 +58,6 @@ pipeline {
             }
         }
         stage('Test-Env smoke-test') {
-            when {
-                expression {
-                    params.SELECT_DEPLOY_TO_PROD == false
-                }
-            }
             steps {
                 script {
                     echo "Waiting for deployment to complete prior starting smoke testing"
@@ -92,11 +71,6 @@ pipeline {
             }
         }
         stage('Wait for user to select module to push to production.') {
-            when {
-                expression {
-                    params.SELECT_DEPLOY_TO_PROD == true
-                }
-            }
             steps {
                 script {
                     try {
@@ -210,7 +184,7 @@ def deploy(folderName, projName, openShiftHost, openShiftToken) {
 
 def makeGetRequest(url) {
     sh"""set -e +x
-      curl -k -f -w "SmokeTest: ${url} %{http_code}\n" -o /dev/null -s ${url}
+      curl -k -f -w "SmokeTest: ${url} returned HTTP Response Code: %{http_code}\n" -o /dev/null -s ${url}
     """
 
 }
