@@ -81,6 +81,9 @@ pipeline {
             }
             steps {
                 script {
+                    echo "Waiting for deployment to complete prior starting smoke testing"
+                    sleep 60
+
                     sh "oc project ${TEST_PROJECT}"
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
