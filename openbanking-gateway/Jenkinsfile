@@ -82,7 +82,7 @@ pipeline {
             steps {
                 script {
                     echo "Waiting for deployment to complete prior starting smoke testing"
-                    sleep 60
+                    sleep 30
 
                     sh "oc project ${TEST_PROJECT}"
                     serviceName = 'openbanking-gateway'
@@ -137,7 +137,7 @@ pipeline {
             steps {
                 script {
                     echo "Waiting for deployment to complete prior starting smoke testing"
-                    sleep 60
+                    sleep 30
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
                     makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
@@ -210,7 +210,7 @@ def deploy(folderName, projName, openShiftHost, openShiftToken) {
 
 def makeGetRequest(url) {
     sh"""set -e +x
-      curl -k -f -w "SmokeTest: %{http_code}\n" -o /dev/null -s ${url}
+      curl -k -f -w "SmokeTest: ${url} %{http_code}\n" -o /dev/null -s ${url}
     """
 
 }
