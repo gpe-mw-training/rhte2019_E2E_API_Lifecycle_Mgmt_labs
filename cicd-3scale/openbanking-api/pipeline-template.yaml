@@ -33,8 +33,10 @@ objects:
           value: ${GIT_BRANCH}
         - name: GIT_REPO
           value: ${GIT_REPO}
-        - name: PRIVATE_BASE_URL
-          value: ${PRIVATE_BASE_URL}
+        - name: DEV_PRIVATE_BASE_URL
+          value: ${DEV_PRIVATE_BASE_URL}
+        - name: PROD_PRIVATE_BASE_URL
+          value: ${PROD_PRIVATE_BASE_URL}
         - name: DEV_PRODUCTION_PUBLIC_BASE_URL
           value: ${DEV_PRODUCTION_PUBLIC_BASE_URL}
         - name: DEV_STAGING_PUBLIC_BASE_URL
@@ -74,7 +76,9 @@ parameters:
 - name: GIT_BRANCH
   value: master
   required: true
-- name: PRIVATE_BASE_URL
+- name: DEV_PRIVATE_BASE_URL
+  required: true
+- name: PROD_PRIVATE_BASE_URL
   required: true
 - name: DEV_PRODUCTION_PUBLIC_BASE_URL
   #required: true

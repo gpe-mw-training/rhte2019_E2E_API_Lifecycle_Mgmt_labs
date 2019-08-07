@@ -35,7 +35,7 @@ node() {
   stage("Deploy API in Dev") {
     def envName = params.TEST_PROJECT
     def app_name= params.APPLICATION_NAME
-    def backend_service = params.PRIVATE_BASE_URL
+    def backend_service = params.DEV_PRIVATE_BASE_URL
 	def stagingPublicBaseURL = params.DEV_STAGING_PUBLIC_BASE_URL
 	def productionPublicBaseURL = params.DEV_PRODUCTION_PUBLIC_BASE_URL
 
@@ -83,7 +83,7 @@ node() {
   stage("Deploy API in Dev") {
     def envName = params.PROD_PROJECT
     def app_name= params.APPLICATION_NAME
-    def backend_service = params.PRIVATE_BASE_URL
+    def backend_service = params.PROD_PRIVATE_BASE_URL
 	def stagingPublicBaseURL = params.PROD_STAGING_PUBLIC_BASE_URL
 	def productionPublicBaseURL = params.PROD_PRODUCTION_PUBLIC_BASE_URL
 
