@@ -170,6 +170,14 @@ def runIntegrationTests(def service) {
   ${getCredentialsCodeSnippet}
   curl -sfk -w "Get Banks List: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/open-data/banks" -H "\$credential_header"
   """
+
+  // Run 2nd method test
+
+  if ((service.openapi.version == "1.1.0") || (service.openapi.version == "2.0.0"))  {
+  ${getCredentialsCodeSnippet}
+  curl -sfk -w "Get Banks List: %{http_code}\n" -o /dev/null "${proxy.sandbox_endpoint}/open-data/banks/1" -H "\$credential_header"
+  """
+  }
 }
 
 def getTokenEndpoint(String oidcIssuerEndpoint) {
