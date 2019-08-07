@@ -1,0 +1,133 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: pipeline-openbanking-publish-api
+metadata:
+  annotations:
+    description: 3scale API publishing Pipeline
+  name: pipeline-openbanking-publish-api
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      name: pipeline-openbanking-publish-api
+    name: pipeline-openbanking-publish-api
+  spec:
+    output: null
+    postCommit: null
+    resources: null
+    runPolicy: Serial
+    source:
+      type: None
+    source:
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: cicd-3scale/openbanking-api/Jenkinsfile
+        env:
+        - name: GIT_BRANCH
+          value: ${GIT_BRANCH}
+        - name: GIT_REPO
+          value: ${GIT_REPO}
+        - name: PRIVATE_BASE_URL
+          value: ${PRIVATE_BASE_URL}
+        - name: PRODUCTION_PUBLIC_BASE_URL
+          value: ${PRODUCTION_PUBLIC_BASE_URL}
+        - name: STAGING_PUBLIC_BASE_URL
+          value: ${STAGING_PUBLIC_BASE_URL}
+        - name: API_BASE_SYSTEM_NAME
+          value: ${API_BASE_SYSTEM_NAME}
+        - name: DEV_PROJECT
+          value: ${DEV_PROJECT}
+        - name: TEST_PROJECT
+          value: ${TEST_PROJECT}
+        - name: PROD_PROJECT
+          value: ${PROD_PROJECT}
+        - name: IMAGE_NAMESPACE
+          value: ${IMAGE_NAMESPACE}
+        - name: SECRET_NAME
+          value: ${SECRET_NAME}
+        - name: TARGET_INSTANCE
+          value: ${TARGET_INSTANCE}
+        - name: DEVELOPER_ACCOUNT_ID
+          value: ${DEVELOPER_ACCOUNT_ID}
+        - name: DISABLE_TLS_VALIDATION
+          value: ${DISABLE_TLS_VALIDATION}
+        - name: APPLICATION_NAME
+          value: ${APPLICATION_NAME}
+        - name: OPENAPI_SPECIFICATION_FILE
+          value: ${OPENAPI_SPECIFICATION_FILE}
+parameters:
+- name: GIT_REPO
+  value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git
+  required: true
+- name: GIT_BRANCH
+  value: master
+  required: true
+- name: PRIVATE_BASE_URL
+  required: true
+- name: DEV_PRODUCTION_PUBLIC_BASE_URL
+  #required: true
+- name: DEV_STAGING_PUBLIC_BASE_URL
+  #required: true
+- name: PROD_PRODUCTION_PUBLIC_BASE_URL
+  #required: true
+- name: PROD_STAGING_PUBLIC_BASE_URL
+  #required: true
+- name: API_BASE_SYSTEM_NAME
+  value: 3scale-mt-api0
+  required: true
+- name: DEV_PROJECT
+  required: true
+  value: openbanking-api-dev
+- name: TEST_PROJECT
+  required: true
+  value: openbanking-api-test
+- name: PROD_PROJECT
+  required: true
+  value: openbanking-api-prod
+- name: IMAGE_NAMESPACE
+  required: true
+  value: openbanking-cicd
+- name: SECRET_NAME
+  value: 3scale-toolbox
+  required: true  
+- name: TARGET_INSTANCE
+  value: openbanking-dev
+  required: true  
+- name: DEVELOPER_ACCOUNT_ID
+  required: true
+  value: "5"
+- name: DISABLE_TLS_VALIDATION
+  value: "yes"
+- name: APPLICATION_NAME
+  value: "openbanking-api"
+  required: true
+- name: OPENAPI_SPECIFICATION_FILE
+  required: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
