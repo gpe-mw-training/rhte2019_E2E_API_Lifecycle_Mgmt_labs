@@ -46,6 +46,8 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${DEV_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
+         }
+         stage('Dev-Env smoke-test method 2') {
             when {
                 expression {
 					// Check for method implemented in version 1.1.0 and later
@@ -85,7 +87,7 @@ pipeline {
                 }
             }
         }
-        stage('Test-Env smoke-test method 2')
+        stage('Test-Env smoke-test method 2')  {
             when {
                 expression {
 					// Check for method implemented in version 1.1.0 and later
@@ -149,7 +151,7 @@ pipeline {
                 }
             }
         }
-        stage('Prod-Env smoke-test for method 2')
+        stage('Prod-Env smoke-test for method 2')  {
             when {
                 expression {
 					// Check for method implemented in version 1.1.0 and later
