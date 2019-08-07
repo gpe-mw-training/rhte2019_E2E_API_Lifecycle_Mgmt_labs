@@ -61,7 +61,6 @@ pipeline {
                 }
             }
         }
-        }
         stage('Pushing to Test') {
             environment {
                 srcTag = 'latest'
@@ -85,6 +84,8 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${TEST_PROJECT}:80/${smokeTestOperation}")
                 }
             }
+        }
+        stage('Test-Env smoke-test method 2')
             when {
                 expression {
 					// Check for method implemented in version 1.1.0 and later
@@ -99,7 +100,6 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${TEST_PROJECT}:80/${smokeTestOperation}")
                 }
             }
-        }
         }
         stage('Wait for user to select module to push to production.') {
             steps {
@@ -148,6 +148,8 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
+        }
+        stage('Prod-Env smoke-test for method 2')
             when {
                 expression {
 					// Check for method implemented in version 1.1.0 and later
