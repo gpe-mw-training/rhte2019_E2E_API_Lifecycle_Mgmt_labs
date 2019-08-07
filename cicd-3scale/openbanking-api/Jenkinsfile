@@ -79,8 +79,27 @@ node() {
     service.promoteToProduction()
   }
 
-
-  stage("Deploy API in Dev") {
+	stage('Wait for user to select module to push to production.') {
+		steps {
+		    script {
+		        try {
+		            timeout (time:2, unit:'HOURS') {
+		                env.userProdApproval = input(id: 'userInput', message: "Do you approve this API to be promoted to production environment?")
+		                env.userProdApproval = 'Approved'
+		            }
+		        } catch (exception) {
+		          env.userProdApproval='---'
+		        }
+		        println("User approval to production " + env.userProdApproval);
+		    }
+		}
+	}
+  stage("Deploy API in Prod") {
+    when {
+      expression {
+        env.userProdApproval == 'Approved'
+      }
+    }
     def envName = params.PROD_PROJECT
     def app_name= params.APPLICATION_NAME
     def backend_service = params.PROD_PRIVATE_BASE_URL
