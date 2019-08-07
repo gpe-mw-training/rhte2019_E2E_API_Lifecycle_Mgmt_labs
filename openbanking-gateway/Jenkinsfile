@@ -46,6 +46,21 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${DEV_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
+            when {
+                expression {
+					// Check for method implemented in version 1.1.0 and later
+                    params.VERSION != '1.0.0'
+                }
+            }
+            steps {
+                script {
+
+                    serviceName = 'openbanking-gateway'
+                    smokeTestOperation='open-data/banks/1' // check for getBankById method
+                    makeGetRequest("http://${serviceName}.${DEV_PROJECT}:8080/${smokeTestOperation}")
+                }
+            }
+        }
         }
         stage('Pushing to Test') {
             environment {
@@ -70,6 +85,21 @@ pipeline {
                     makeGetRequest("http://${serviceName}.${TEST_PROJECT}:80/${smokeTestOperation}")
                 }
             }
+            when {
+                expression {
+					// Check for method implemented in version 1.1.0 and later
+                    params.VERSION != '1.0.0'
+                }
+            }
+            steps {
+                script {
+
+                    serviceName = 'openbanking-gateway'
+                    smokeTestOperation='open-data/banks/1' // check for getBankById method
+                    makeGetRequest("http://${serviceName}.${TEST_PROJECT}:80/${smokeTestOperation}")
+                }
+            }
+        }
         }
         stage('Wait for user to select module to push to production.') {
             steps {
@@ -115,6 +145,20 @@ pipeline {
                     sleep 60
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks'
+                    makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
+                }
+            }
+            when {
+                expression {
+					// Check for method implemented in version 1.1.0 and later
+                    params.VERSION != '1.0.0'
+                }
+            }
+            steps {
+                script {
+
+                    serviceName = 'openbanking-gateway'
+                    smokeTestOperation='open-data/banks/1' // check for getBankById method
                     makeGetRequest("http://${serviceName}.${PROD_PROJECT}:8080/${smokeTestOperation}")
                 }
             }

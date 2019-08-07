@@ -1,18 +1,18 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  template: pipeline-openbanking-publish-api
+  template: openbanking-publish-api-pipeline
 metadata:
   annotations:
     description: 3scale API publishing Pipeline
-  name: pipeline-openbanking-publish-api
+  name: openbanking-publish-api-pipeline
 objects:
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
-      name: pipeline-openbanking-publish-api
-    name: pipeline-openbanking-publish-api
+      name: openbanking-publish-api-pipeline
+    name: openbanking-publish-api-pipeline
   spec:
     output: null
     postCommit: null
