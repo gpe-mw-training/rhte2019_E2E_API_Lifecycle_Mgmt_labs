@@ -68,3 +68,5 @@ objects:
           value: ${IMAGE_NAMESPACE}
         - name: IMAGE_REGISTRY 
           value: ${IMAGE_REGISTRY}
+        - name: VERSION
+          value: ${VERSION}
