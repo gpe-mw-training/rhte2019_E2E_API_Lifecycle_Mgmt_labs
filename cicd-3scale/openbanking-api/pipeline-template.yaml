@@ -57,8 +57,10 @@ objects:
           value: ${IMAGE_NAMESPACE}
         - name: SECRET_NAME
           value: ${SECRET_NAME}
-        - name: TARGET_INSTANCE
-          value: ${TARGET_INSTANCE}
+        - name: TARGET_INSTANCE_DEV
+          value: ${TARGET_INSTANCE_DEV}
+        - name: TARGET_INSTANCE_PROD
+          value: ${TARGET_INSTANCE_PROD}
         - name: DEVELOPER_ACCOUNT_ID
           value: ${DEVELOPER_ACCOUNT_ID}
         - name: DISABLE_TLS_VALIDATION
@@ -106,9 +108,12 @@ parameters:
 - name: SECRET_NAME
   value: 3scale-toolbox
   required: true  
-- name: TARGET_INSTANCE
+- name: TARGET_INSTANCE_DEV
   value: openbanking-dev
   required: true  
+- name: TARGET_INSTANCE_PROD
+  value: openbanking-prod
+  required: true
 - name: DEVELOPER_ACCOUNT_ID
   required: true
   value: "5"
