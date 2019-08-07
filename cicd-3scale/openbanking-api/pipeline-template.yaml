@@ -35,10 +35,14 @@ objects:
           value: ${GIT_REPO}
         - name: PRIVATE_BASE_URL
           value: ${PRIVATE_BASE_URL}
-        - name: PRODUCTION_PUBLIC_BASE_URL
-          value: ${PRODUCTION_PUBLIC_BASE_URL}
-        - name: STAGING_PUBLIC_BASE_URL
-          value: ${STAGING_PUBLIC_BASE_URL}
+        - name: DEV_PRODUCTION_PUBLIC_BASE_URL
+          value: ${DEV_PRODUCTION_PUBLIC_BASE_URL}
+        - name: DEV_STAGING_PUBLIC_BASE_URL
+          value: ${DEV_STAGING_PUBLIC_BASE_URL}
+        - name: PROD_PRODUCTION_PUBLIC_BASE_URL
+          value: ${PROD_PRODUCTION_PUBLIC_BASE_URL}
+        - name: PROD_STAGING_PUBLIC_BASE_URL
+          value: ${PROD_STAGING_PUBLIC_BASE_URL}
         - name: API_BASE_SYSTEM_NAME
           value: ${API_BASE_SYSTEM_NAME}
         - name: DEV_PROJECT
@@ -61,6 +65,8 @@ objects:
           value: ${APPLICATION_NAME}
         - name: OPENAPI_SPECIFICATION_FILE
           value: ${OPENAPI_SPECIFICATION_FILE}
+        - name: TOOLBOX_IMAGE_REGISTRY
+          value: ${TOOLBOX_IMAGE_REGISTRY}
 parameters:
 - name: GIT_REPO
   value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git
@@ -109,6 +115,9 @@ parameters:
   required: true
 - name: OPENAPI_SPECIFICATION_FILE
   required: true
+- name: TOOLBOX_IMAGE_REGISTRY
+  required: true
+  value: "quay.io/redhat/3scale-toolbox:v0.12.3"
 
 
 
