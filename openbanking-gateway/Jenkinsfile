@@ -103,7 +103,7 @@ pipeline {
 
                     serviceName = 'openbanking-gateway'
                     smokeTestOperation='open-data/banks/1' // check for getBankById method
-                    makeGetRequest("http://${serviceName}.${TEST_PROJECT}:80/${smokeTestOperation}")
+                    makeGetRequest("http://${serviceName}.${TEST_PROJECT}:8080/${smokeTestOperation}")
                 }
             }
         }
@@ -190,7 +190,7 @@ def promoteServiceSetup(openShiftHost, openShiftToken, svcName, registry, imageN
             oc patch dc ${svcName} -p '{"spec": {"template": {"spec": {"containers": [{"name": "default-container","resources": {"requests": {"cpu": "500m","memory": "512Mi"},"limits": {"cpu": "1","memory": "1Gi"}}}]}}}}'  -n ${projName}  2> /dev/null
             oc set env dc ${svcName} APP_NAME=${svcName} -n ${projName} 2> /dev/null
             oc rollout resume dc ${svcName} -n ${projName}  2> /dev/null
-            //oc expose dc ${svcName} --type=ClusterIP  --port=8080 --protocol=TCP -n ${projName}  2> /dev/null
+            oc expose dc ${svcName} --type=ClusterIP  --port=8080 --protocol=TCP -n ${projName}  2> /dev/null
             oc expose svc ${svcName} --name=${svcName} -n ${projName}  2> /dev/null
         """
     } catch (Exception e) {
