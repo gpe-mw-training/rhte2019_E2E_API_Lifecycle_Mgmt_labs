@@ -24,6 +24,8 @@ echo "export API_WILDCARD_DOMAIN=apps-\$API_DOMAIN" >> ~/.bashrc
 echo "export TENANT_NAME_DEV=\$BASE_NAME-dev" >> ~/.bashrc
 echo "export TENANT_NAME_PROD=\$BASE_NAME-prod" >> ~/.bashrc
 
+source $HOME/.bashrc
+
 echo "export API_ADMIN_ACCESS_TOKEN_DEV=`oc describe  deploy prod-apicast -n $GW_PROJECT_DEV | grep THREESCALE_PORTAL_ENDPOINT | cut -d'@' -f1 | cut -d'/' -f3`" >> ~/.bashrc
 echo "export API_ADMIN_ACCESS_TOKEN_PROD=`oc describe  deploy prod-apicast -n $GW_PROJECT_PROD | grep THREESCALE_PORTAL_ENDPOINT | cut -d'@' -f1 | cut -d'/' -f3`" >> ~/.bashrc
 
