@@ -25,10 +25,14 @@ pipeline {
                 git url: params.GIT_REPO, branch: params.GIT_BRANCH
             }
         }
-        stage('Build Service') {
+        stage('Build Service in DEV') {
             steps {
                 echo "Building.. ${MODULE_NAME} "
                 build(env.MODULE_NAME)
+            }
+        }
+        stage('Deploy Service in DEV') {
+            steps {
 
                 echo "Deploying ${MODULE_NAME} to ${DEV_PROJECT}"
                 deploy(env.MODULE_NAME, params.DEV_PROJECT, params.OPENSHIFT_HOST, params.OPENSHIFT_TOKEN)

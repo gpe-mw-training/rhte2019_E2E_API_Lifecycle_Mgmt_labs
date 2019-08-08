@@ -30,7 +30,6 @@ parameters:
   value: openbanking-api-dev
 - name: VERSION 
   required: true
-  value: 1.0
 objects:
 - apiVersion: v1
   kind: BuildConfig
