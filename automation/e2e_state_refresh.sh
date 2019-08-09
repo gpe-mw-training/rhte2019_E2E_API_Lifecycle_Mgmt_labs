@@ -11,7 +11,9 @@ enableLetsEncryptCertsOnRoutes() {
     oc adm policy add-cluster-role-to-user openshift-acme -z openshift-acme
 
     echo -en "metadata:\n  annotations:\n    kubernetes.io/tls-acme: \"true\"" > /tmp/route-tls-patch.yml
-    oc patch route emergency-console --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route system-master --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route system-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route system-provider-admin --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
 }
 
 refreshControlPlane() {
