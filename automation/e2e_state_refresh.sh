@@ -75,3 +75,5 @@ refreshDataPlane() {
 enableLetsEncryptCertsOnRoutes
 refreshControlPlane
 refreshDataPlane
+
+echo $new_guid > $HOME/guid
