@@ -3,7 +3,7 @@
 echo "export API_REGION=`echo $HOSTNAME | cut -d'.' -f1 | cut -d'-' -f2`" >> ~/.bashrc
 echo "export BASE_NAME=openbanking" >> ~/.bashrc
 echo "export API_DOMAIN=\$API_REGION.generic.opentlc.com" >> ~/.bashrc
-echo "export API_USERNAME=api1" >> ~/.bashrc
+echo "export API_USERNAME=api01" >> ~/.bashrc
 echo "export API_MANAGER_NS=3scale-mt-api0" >> ~/.bashrc
 echo "export OCP_USERNAME=user1" >> ~/.bashrc
 echo "export GW_PROJECT_DEV=\$BASE_NAME-dev-gw" >> $HOME/.bashrc
