@@ -15,6 +15,12 @@ enableLetsEncryptCertsOnRoutes() {
     oc patch route system-master --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route system-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route system-provider-admin --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    
+    oc patch route openbanking-dev-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-dev-provider --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-prod-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-prod-provider --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    
 }
 
 refreshControlPlane() {
