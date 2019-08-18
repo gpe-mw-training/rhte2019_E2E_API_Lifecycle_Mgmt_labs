@@ -6,6 +6,7 @@ openbanking_prod_gw_project=openbanking-prod-gw
 new_threescale_superdomain=apps-$new_guid.generic.opentlc.com
 
 enableLetsEncryptCertsOnRoutes() {
+    oc delete project prod-letsencrypt
     oc new-project prod-letsencrypt
     oc create -fhttps://raw.githubusercontent.com/gpe-mw-training/openshift-acme/master/deploy/letsencrypt-live/cluster-wide/{clusterrole,serviceaccount,imagestream,deployment}.yaml -n prod-letsencrypt
     oc adm policy add-cluster-role-to-user openshift-acme -z openshift-acme
