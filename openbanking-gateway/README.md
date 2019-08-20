@@ -26,3 +26,7 @@ You can expose the service externally using the following command:
 And then you can access it's OpenAPI docs hosted by the service at:
 
     curl -s http://$(oc get route open-data-apis --template={{.spec.host}})/openapi.json
+
+## Using Nexus in OCP
+
+    mvn clean package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=http://`oc get route nexus --template {{.spec.host}} -n $NEXUS_PROJECT`

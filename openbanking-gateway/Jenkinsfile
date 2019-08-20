@@ -15,9 +15,11 @@ pipeline {
         string (defaultValue: 'https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git', name:'GIT_REPO', description:'Git source')
         string (defaultValue: 'master', name:'GIT_BRANCH', description:'Git branch in the source git')
         string (defaultValue: '1.0', name:'VERSION', description:'Version no of the application')
+        string (defaultValue: 'nexus.openbanking-nexus.svc.cluster.local:8081', name:'NEXUS_HOST_URL', description:'URL to Nexus')
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'
+        nexusHostUrl = params.NEXUS_HOST_URL
     }
     stages {
         stage ('source') {
@@ -220,7 +222,7 @@ def build(folderName) {
 
     cd ${folderName}
 
-    mvn package -Dmaven.test.skip=true
+    mvn package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=${nexusHostUrl}
     """
 
 }
@@ -230,7 +232,7 @@ def deploy(folderName, projName, openShiftHost, openShiftToken) {
 
     oc project ${projName}
 
-    mvn fabric8:deploy -Dmaven.test.skip=true
+    mvn fabric8:deploy -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=${nexusHostUrl}
     """
 }
 
