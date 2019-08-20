@@ -3,6 +3,7 @@ stale_guid=`cat $HOME/guid`
 api_control_plane_project=3scale-mt-api0
 openbanking_dev_gw_project=openbanking-dev-gw
 openbanking_prod_gw_project=openbanking-prod-gw
+openbanking_nexus_project=openbanking-nexus
 new_threescale_superdomain=apps-$new_guid.generic.opentlc.com
 
 enableLetsEncryptCertsOnRoutes() {
@@ -14,6 +15,7 @@ enableLetsEncryptCertsOnRoutes() {
     oc patch route system-master --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route system-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route system-provider-admin --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route nexus --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $openbanking_nexus_project
 }
 
 refreshControlPlane() {
