@@ -19,7 +19,7 @@ pipeline {
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'
-        nexusHostUrl = params.NEXUS_HOST_URL
+        nexusHostUrl = 'params.NEXUS_HOST_URL'
     }
     stages {
         stage ('source') {
