@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "export MAVEN_HOME=/usr/local/apache-maven-3.5.4" >> ~/.bashrc
+
 echo "export API_REGION=`echo $HOSTNAME | cut -d'.' -f1 | cut -d'-' -f2`" >> ~/.bashrc
 echo "export BASE_NAME=openbanking" >> ~/.bashrc
 echo "export API_DOMAIN=\$API_REGION.generic.opentlc.com" >> ~/.bashrc
@@ -36,3 +38,4 @@ echo "export API_ADMIN_ACCESS_TOKEN_PROD=`oc describe  deploy prod-apicast -n $G
 echo "export THREESCALE_PORTAL_ENDPOINT_DEV=https://\${API_ADMIN_ACCESS_TOKEN_DEV}@\$TENANT_NAME_DEV-admin.\$API_WILDCARD_DOMAIN" >> ~/.bashrc
 echo "export THREESCALE_PORTAL_ENDPOINT_PROD=https://\${API_ADMIN_ACCESS_TOKEN_PROD}@\$TENANT_NAME_PROD-admin.\$API_WILDCARD_DOMAIN" >> ~/.bashrc
 
+echo "export PATH=$PATH:\$MAVEN_HOME/bin" >> ~/.bashrc
