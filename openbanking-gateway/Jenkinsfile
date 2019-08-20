@@ -19,7 +19,6 @@ pipeline {
     }
     environment {
         MODULE_NAME = 'openbanking-gateway'
-        nexusHostUrl = 'params.NEXUS_HOST_URL'
     }
     stages {
         stage ('source') {
@@ -222,7 +221,7 @@ def build(folderName) {
 
     cd ${folderName}
 
-    mvn package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=${nexusHostUrl}
+    mvn package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=params.NEXUS_HOST_URL
     """
 
 }
@@ -232,7 +231,7 @@ def deploy(folderName, projName, openShiftHost, openShiftToken) {
 
     oc project ${projName}
 
-    mvn fabric8:deploy -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=${nexusHostUrl}
+    mvn fabric8:deploy -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=params.NEXUS_HOST_URL
     """
 }
 
