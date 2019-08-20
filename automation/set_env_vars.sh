@@ -1,9 +1,11 @@
 #!/bin/bash
 
+echo "export MAVEN_HOME=/usr/local/apache-maven-3.5.4" >> ~/.bashrc
+
 echo "export API_REGION=`echo $HOSTNAME | cut -d'.' -f1 | cut -d'-' -f2`" >> ~/.bashrc
 echo "export BASE_NAME=openbanking" >> ~/.bashrc
 echo "export API_DOMAIN=\$API_REGION.generic.opentlc.com" >> ~/.bashrc
-echo "export API_USERNAME=api1" >> ~/.bashrc
+echo "export API_USERNAME=api01" >> ~/.bashrc
 echo "export API_MANAGER_NS=3scale-mt-api0" >> ~/.bashrc
 echo "export OCP_USERNAME=user1" >> ~/.bashrc
 echo "export GW_PROJECT_DEV=\$BASE_NAME-dev-gw" >> $HOME/.bashrc
@@ -24,6 +26,10 @@ echo "export API_WILDCARD_DOMAIN=apps-\$API_DOMAIN" >> ~/.bashrc
 echo "export TENANT_NAME_DEV=\$BASE_NAME-dev" >> ~/.bashrc
 echo "export TENANT_NAME_PROD=\$BASE_NAME-prod" >> ~/.bashrc
 
+echo "export DEV_TENANT_WILDCARD_DOMAIN=\$GW_PROJECT_DEV.\$OCP_WILDCARD_DOMAIN                   #   DEV Tenant Wildcard DNS" >> ~/.bashrc
+echo "export PROD_TENANT_WILDCARD_DOMAIN=\$GW_PROJECT_PROD.\$OCP_WILDCARD_DOMAIN                   #  PROD Tenant Wildcard DNS" >> ~/.bashrc
+
+
 source $HOME/.bashrc
 
 echo "export API_ADMIN_ACCESS_TOKEN_DEV=`oc describe  deploy prod-apicast -n $GW_PROJECT_DEV | grep THREESCALE_PORTAL_ENDPOINT | cut -d'@' -f1 | cut -d'/' -f3`" >> ~/.bashrc
@@ -32,3 +38,4 @@ echo "export API_ADMIN_ACCESS_TOKEN_PROD=`oc describe  deploy prod-apicast -n $G
 echo "export THREESCALE_PORTAL_ENDPOINT_DEV=https://\${API_ADMIN_ACCESS_TOKEN_DEV}@\$TENANT_NAME_DEV-admin.\$API_WILDCARD_DOMAIN" >> ~/.bashrc
 echo "export THREESCALE_PORTAL_ENDPOINT_PROD=https://\${API_ADMIN_ACCESS_TOKEN_PROD}@\$TENANT_NAME_PROD-admin.\$API_WILDCARD_DOMAIN" >> ~/.bashrc
 
+echo "export PATH=$PATH:\$MAVEN_HOME/bin" >> ~/.bashrc

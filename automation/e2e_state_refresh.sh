@@ -7,6 +7,7 @@ openbanking_nexus_project=openbanking-nexus
 new_threescale_superdomain=apps-$new_guid.generic.opentlc.com
 
 enableLetsEncryptCertsOnRoutes() {
+    oc delete project prod-letsencrypt
     oc new-project prod-letsencrypt
     oc create -fhttps://raw.githubusercontent.com/gpe-mw-training/openshift-acme/master/deploy/letsencrypt-live/cluster-wide/{clusterrole,serviceaccount,imagestream,deployment}.yaml -n prod-letsencrypt
     oc adm policy add-cluster-role-to-user openshift-acme -z openshift-acme
@@ -16,6 +17,10 @@ enableLetsEncryptCertsOnRoutes() {
     oc patch route system-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route system-provider-admin --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
     oc patch route nexus --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $openbanking_nexus_project
+    oc patch route openbanking-dev-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-dev-provider --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-prod-developer --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
+    oc patch route openbanking-prod-provider --type merge --patch "$(cat /tmp/route-tls-patch.yml)" -n $api_control_plane_project
 }
 
 refreshControlPlane() {
