@@ -29,4 +29,4 @@ And then you can access it's OpenAPI docs hosted by the service at:
 
 ## Using Nexus in OCP
 
-    mvn clean package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=http://`oc get route nexus --template {{.spec.host}} -n $NEXUS_PROJECT`
+    mvn clean package -Dmaven.test.skip=true -s configuration/settings.xml -DnexusHostUrl=https://`oc get route nexus --template {{.spec.host}} -n $NEXUS_PROJECT`
