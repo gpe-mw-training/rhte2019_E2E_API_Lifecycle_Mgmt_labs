@@ -31,7 +31,7 @@
     <mirror>
       <id>Nexus</id>
       <name>Nexus Public Mirror</name>
-      <url>${nexusHostUrl}/content/groups/public</url>
+      <url>${nexusHostUrl}/content/groups/public/</url>
       <mirrorOf>*</mirrorOf>
     </mirror>
   </mirrors>
