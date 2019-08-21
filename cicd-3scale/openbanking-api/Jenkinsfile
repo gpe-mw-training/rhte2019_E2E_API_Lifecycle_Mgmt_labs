@@ -1,5 +1,9 @@
 #!groovy
 
+// This CI/CD pipeline will execute within the container of a custom Jenkins image that includes the "3scale-toolbox-jenkins" shared library
+// Documentation pertaining to this shared library can be found here:
+//   1)  https://developers.redhat.com/blog/2019/07/31/using-the-3scale-toolbox-jenkins-shared-library/
+//   2)  https://github.com/rh-integration/3scale-toolbox-jenkins/blob/master/README.md
 library identifier: '3scale-toolbox-jenkins@master', 
         retriever: modernSCM([$class: 'GitSCMSource',
                               remote: 'https://github.com/rh-integration/3scale-toolbox-jenkins.git',
@@ -39,7 +43,7 @@ node() {
 	def stagingPublicBaseURL = params.DEV_STAGING_PUBLIC_BASE_URL
 	def productionPublicBaseURL = params.DEV_PRODUCTION_PUBLIC_BASE_URL
 
-    // Prepare
+    // create the ThreescaleService object from your API metadata manifest:
     service = toolbox.prepareThreescaleService(
         openapi: [filename: "cicd-3scale/openbanking-api/" + params.OPENAPI_SPECIFICATION_FILE ],
         environment: [ baseSystemName: params.API_BASE_SYSTEM_NAME,
