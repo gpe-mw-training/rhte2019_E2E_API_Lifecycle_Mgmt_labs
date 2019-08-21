@@ -4,6 +4,8 @@
 // Documentation pertaining to this shared library can be found here:
 //   1)  https://developers.redhat.com/blog/2019/07/31/using-the-3scale-toolbox-jenkins-shared-library/
 //   2)  https://github.com/rh-integration/3scale-toolbox-jenkins/blob/master/README.md
+
+// TO-DO:  Explain why doesn't this groovy functionality just come out of the box with the the 3scale toolbox container image ?
 library identifier: '3scale-toolbox-jenkins@master', 
         retriever: modernSCM([$class: 'GitSCMSource',
                               remote: 'https://github.com/rh-integration/3scale-toolbox-jenkins.git',
