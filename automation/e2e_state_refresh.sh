@@ -84,7 +84,7 @@ refreshDataPlane() {
   oc patch deploy wc-router -n $openbanking_prod_gw_project -p '{"spec":{"template":{"spec":{"containers":[{"name":"wc-router","env":  [{"name":"API_HOST","value":"'$newAPIHOST'"}]}]}}}}'
 
   oc delete route wc-router -n $openbanking_prod_gw_project
-  oc create route edge wc-router --service=wc-router --wildcard-policy=Subdomain --hostname=wc-router.$openbanking_prod_gw_project.$new_threescale_superdomain -n $openbanking_dev_gw_project
+  oc create route edge wc-router --service=wc-router --wildcard-policy=Subdomain --hostname=wc-router.$openbanking_prod_gw_project.$new_threescale_superdomain -n $openbanking_prod_gw_project
 
 }
 
