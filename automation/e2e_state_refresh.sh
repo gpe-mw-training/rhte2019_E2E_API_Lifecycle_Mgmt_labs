@@ -6,6 +6,11 @@ openbanking_prod_gw_project=openbanking-prod-gw
 openbanking_nexus_project=openbanking-nexus
 new_threescale_superdomain=apps-$new_guid.generic.opentlc.com
 
+
+# 22 August 2019; JA Bride
+# The following error is occuring:
+#
+#   failed to create ACME certificate: 429 urn:acme:error:rateLimited: Error creating new cert :: too many certificates already issued for: opentlc.com: see https://letsencrypt.org/docs/rate-limits/
 enableLetsEncryptCertsOnRoutes() {
     oc delete project prod-letsencrypt
     oc new-project prod-letsencrypt
@@ -93,7 +98,7 @@ refreshCICD() {
   oc delete sa openbanking-jenkins -n openbanking-cicd
 }
 
-enableLetsEncryptCertsOnRoutes
+#enableLetsEncryptCertsOnRoutes
 refreshControlPlane
 refreshDataPlane
 refreshCICD
