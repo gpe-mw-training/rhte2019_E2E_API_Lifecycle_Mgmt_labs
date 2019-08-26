@@ -61,8 +61,10 @@ objects:
           value: ${TARGET_INSTANCE_DEV}
         - name: TARGET_INSTANCE_PROD
           value: ${TARGET_INSTANCE_PROD}
-        - name: DEVELOPER_ACCOUNT_ID
-          value: ${DEVELOPER_ACCOUNT_ID}
+        - name: DEV_DEVELOPER_ACCOUNT_ID
+          value: ${DEV_DEVELOPER_ACCOUNT_ID}
+        - name: PROD_DEVELOPER_ACCOUNT_ID
+          value: ${PROD_DEVELOPER_ACCOUNT_ID}
         - name: DISABLE_TLS_VALIDATION
           value: ${DISABLE_TLS_VALIDATION}
         - name: APPLICATION_NAME
@@ -114,9 +116,12 @@ parameters:
 - name: TARGET_INSTANCE_PROD
   value: openbanking-prod
   required: true
-- name: DEVELOPER_ACCOUNT_ID
+- name: DEV_DEVELOPER_ACCOUNT_ID
   required: true
   value: "5"
+- name: PROD_DEVELOPER_ACCOUNT_ID
+  required: true
+  value: "7"
 - name: DISABLE_TLS_VALIDATION
   value: "yes"
 - name: APPLICATION_NAME
