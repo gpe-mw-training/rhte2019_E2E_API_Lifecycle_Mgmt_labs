@@ -106,6 +106,6 @@ refreshCICD() {
 #enableLetsEncryptCertsOnRoutes
 refreshControlPlane
 refreshDataPlane
-// refreshCICD
+# refreshCICD
 
 echo $new_guid > $HOME/guid
