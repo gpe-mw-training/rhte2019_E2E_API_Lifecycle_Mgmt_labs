@@ -84,6 +84,11 @@ refreshDataPlane() {
   oc create route edge wc-router --service=wc-router --wildcard-policy=Subdomain --hostname=wc-router.$openbanking_dev_gw_project.$new_threescale_superdomain -n $openbanking_dev_gw_project
 
     # update prod_gw
+  oldTPE=`oc get deploy prod-apicast -o json -n $openbanking_prod_gw_project | /usr/local/bin/jq .spec.template.spec.containers[0].env[0].value`
+  newTPE=`echo $oldTPE | sed "s/apps-$stale_guid/apps-$new_guid/" | sed "s/\"//g"`
+  oldAPIHOST=`oc get deploy wc-router -o json -n $openbanking_prod_gw_project | /usr/local/bin/jq .spec.template.spec.containers[0].env[0].value`
+  newAPIHOST=`echo $oldAPIHOST | sed "s/apps-$stale_guid/apps-$new_guid/" | sed "s/\"//g"`
+
   oc patch deploy prod-apicast -n $openbanking_prod_gw_project -p '{"spec":{"template":{"spec":{"containers":[{"name":"prod-apicast","env":[{"name":"THREESCALE_PORTAL_ENDPOINT","value":"'$newTPE'"}]}]}}}}'
   oc patch deploy stage-apicast -n $openbanking_prod_gw_project -p '{"spec":{"template":{"spec":{"containers":[{"name":"stage-apicast","env":[{"name":"THREESCALE_PORTAL_ENDPOINT","value":"'$newTPE'"}]}]}}}}'
   oc patch deploy wc-router -n $openbanking_prod_gw_project -p '{"spec":{"template":{"spec":{"containers":[{"name":"wc-router","env":  [{"name":"API_HOST","value":"'$newAPIHOST'"}]}]}}}}'
@@ -101,6 +106,6 @@ refreshCICD() {
 #enableLetsEncryptCertsOnRoutes
 refreshControlPlane
 refreshDataPlane
-refreshCICD
+// refreshCICD
 
 echo $new_guid > $HOME/guid
