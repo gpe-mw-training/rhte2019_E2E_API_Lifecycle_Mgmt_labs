@@ -85,7 +85,7 @@ refreshDataPlane() {
 
     # update prod_gw
   oldTPE=`oc get deploy prod-apicast -o json -n $openbanking_prod_gw_project | /usr/local/bin/jq .spec.template.spec.containers[0].env[0].value`
-  newTPE=`echo $oldTPE | sed "s/apps-$stale_guid/apps-$new_guid/" | sed "s/\"//g"`
+  newTPE=`echo $oldTPE | sed "s/apps-$stale_guid/apps-$new_guid/" | sed "s/openbanking-dev-admin/openbanking-prod-admin/" | sed "s/\"//g"`
   oldAPIHOST=`oc get deploy wc-router -o json -n $openbanking_prod_gw_project | /usr/local/bin/jq .spec.template.spec.containers[0].env[0].value`
   newAPIHOST=`echo $oldAPIHOST | sed "s/apps-$stale_guid/apps-$new_guid/" | sed "s/\"//g"`
 
