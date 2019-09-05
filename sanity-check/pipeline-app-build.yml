@@ -1,0 +1,37 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+    template: pipeline
+metadata:
+  annotations:
+    description: RHTE CICD Sanity Check Pipeline
+  name: pipeline
+parameters:
+- name: GIT_REPO
+  value: https://github.com/gpe-mw-training/rhte2019_E2E_API_Lifecycle_Mgmt_labs.git
+  required: true
+- name: GIT_BRANCH
+  value: master
+  required: true
+objects:
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: sanity-check-pipeline
+    labels:
+      app: "sanity-check-pipeline"
+  spec:
+    output: null
+    postCommit: null
+    resources: null
+    runPolicy: Serial
+    source:
+      type: None
+    source:
+      git:
+        uri: ${GIT_REPO}
+        ref: ${GIT_BRANCH}
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: sanity-check/Jenkinsfile
