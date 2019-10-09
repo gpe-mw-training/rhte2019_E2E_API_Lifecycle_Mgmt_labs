@@ -32,9 +32,23 @@ refreshControlPlane() {
   # Switch to namespace of API Manager Control Plane
   oc project $api_control_plane_project
 
-
   echo -en "\nwill update the following stale guid in the API Manager from: $stale_guid to $new_guid\n\n"
 
+  #### Start system-mysql pod (in particular) so as to update stale URLs in next step
+  oc scale --replicas=1 dc/system-redis
+  oc scale --replicas=1 dc/backend-redis
+  oc scale --replicas=1 dc/zync-database
+  oc scale --replicas=1 dc/system-mysql
+  i=1
+  while [ $i -le 20 ]; do
+    if [[ "1" == `oc get dc system-mysql -o json | /usr/local/bin/jq .status.readyReplicas` ]]; then
+      echo -en "\nsystem-mysql has started\n";
+      break;
+    fi
+    echo -en "\nwaiting for system-mysql pod to start: $i\n";
+    ((i++))
+    sleep 10;
+  done
 
   ####  Update all references to old GUID in system-mysql database #####
 
@@ -62,6 +76,16 @@ refreshControlPlane() {
   ########   Patch backend-listener secret #######
   b64_url=`echo https://backend-t1-$api_control_plane_project.$new_threescale_superdomain | base64 -w 0`
   oc patch secret backend-listener -p "{\"data\":{\"route_endpoint\":\"$b64_url\"} }"
+
+  ### Scale out all other remaining DeploymentConfigs
+  oc scale --replicas=1 dc/backend-listener
+  oc scale --replicas=1 dc/backend-worker
+  oc scale --replicas=1 dc/backend-cron
+  oc scale --replicas=1 dc/system-app
+  oc scale --replicas=1 dc/system-memcache
+  oc scale --replicas=1 dc/system-sidekiq
+  oc scale --replicas=1 dc/system-sphinx
+  oc scale --replicas=1 dc/zync
 
 }
 
