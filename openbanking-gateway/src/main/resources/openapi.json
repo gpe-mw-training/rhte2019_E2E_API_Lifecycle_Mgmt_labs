@@ -16,6 +16,7 @@
     "host": "open-data.b9ad.pro-us-east-1.openshiftapps.com",
     "basePath": "/open-data",
     "schemes": [
+	"http",
         "https"
     ],
     "consumes": [
